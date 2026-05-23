@@ -1,0 +1,2734 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)file:///C:/Users/celes/OneDrive/Desktop/games/idleweedgame/s1/schedule%201%20as%20fuh.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schedule II</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-user-select:none}
+body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden}
+#phone{width:435px;height:815px;background:#000;border-radius:48px;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.6);position:relative;flex-shrink:0}
+#screen{width:100%;height:100%;background:#f2f2f7;border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column;transition:background .25s ease,color .25s ease}
+#notch{width:140px;height:26px;background:#000;border-radius:0 0 14px 14px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:99}
+#notch::after{content:'';width:8px;height:8px;border-radius:50%;background:#1a1a3e;position:absolute;top:9px;left:50%;transform:translateX(-50%)}
+#status-bar{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;font-size:12px;font-weight:600;color:#000;flex-shrink:0;position:relative;z-index:50}
+#status-bar .time{font-weight:700}
+#status-bar .icons{display:flex;gap:4px;align-items:center;font-size:14px}
+#hud{height:36px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;background:#fff;border-bottom:1px solid #e5e5ea;font-size:13px;font-weight:600;flex-shrink:0}
+#hud .money{color:#34c759}
+#hud .orders{color:#007aff}
+#hud .lvl{color:#8e8e93}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;transition:opacity .12s ease}
+#content::-webkit-scrollbar{display:none}
+#content.fade{opacity:0}
+.nav-bar{height:44px;display:flex;align-items:center;padding:0 12px;background:rgba(255,255,255,.95);border-bottom:1px solid #e5e5ea;flex-shrink:0;gap:8px}
+.nav-bar .back{font-size:24px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .2s;background:0 0;border:none;color:#007aff}
+.nav-bar .back:active{background:rgba(0,122,255,.15)}
+.nav-bar .title{font-size:16px;font-weight:600;flex:1}
+/* Home */
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:30px 20px;justify-items:center}
+.app-icon{width:80px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:transform .15s}
+.app-icon:active{transform:scale(.9)}
+.app-icon .icon-wrap{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.app-icon .label{font-size:11px;font-weight:500;color:#333;text-align:center}
+.app-icon .badge{position:absolute;top:-4px;right:-4px;background:#ff3b30;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.app-icon{position:relative}
+/* Orders */
+.order-card{background:#fff;margin:6px 12px;padding:10px 12px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:6px}
+.order-card .top{display:flex;justify-content:space-between;align-items:center}
+.order-card .name{font-weight:600;font-size:14px}
+.order-card .timer{font-size:11px;color:#ff3b30;font-weight:500;display:flex;align-items:center;gap:4px}
+.order-card .details{font-size:12px;color:#666;display:flex;gap:12px}
+.order-card .details span{background:#f2f2f7;padding:2px 8px;border-radius:6px}
+.order-card .bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2px}
+.order-card .price{font-weight:700;font-size:15px;color:#34c759}
+.order-card .btn-fulfill{padding:4px 14px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:#34c759;color:#fff}
+.order-card .btn-fulfill:active{opacity:.7}
+.order-card .btn-fulfill:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+/* Area cards */
+.area-card{background:#fff;margin:8px 12px;padding:14px;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;align-items:center;gap:14px}
+.area-card:active{transform:scale(.97);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.area-card .area-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;flex-shrink:0}
+.area-card .area-info{flex:1;display:flex;flex-direction:column;gap:2px}
+.area-card .area-name{font-size:15px;font-weight:700}
+.area-card .area-stats{font-size:11px;color:#666;display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:2px}
+.area-card .area-stats span{display:flex;align-items:center;gap:3px}
+.area-card .area-count{font-size:11px;color:#8e8e93;background:#f2f2f7;padding:2px 8px;border-radius:8px;flex-shrink:0}
+/* Contact items */
+.contact-item{background:#fff;margin:4px 12px;padding:12px 14px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:pointer;transition:transform .15s;display:flex;align-items:center;gap:10px}
+.contact-item:active{transform:scale(.98)}
+.contact-item .contact-avatar{width:40px;height:40px;border-radius:20px;background:#f2f2f7;display:flex;align-items:center;justify-content:center;font-size:16px;color:#666;flex-shrink:0}
+.contact-item .contact-info{flex:1}
+.contact-item .contact-name{font-size:14px;font-weight:600}
+.contact-item .contact-desire{font-size:11px;color:#8e8e93;display:flex;align-items:center;gap:4px;margin-top:1px}
+.contact-item .contact-desire .bonus{color:#ff9500;font-weight:600}
+.contact-item .contact-arrow{color:#c7c7cc;font-size:18px}
+/* Sell form */
+.sell-header{display:flex;align-items:center;gap:10px;padding:12px 14px 4px}
+.sell-header .sell-name{font-size:18px;font-weight:700}
+.sell-header .sell-area-badge{font-size:11px;background:#f2f2f7;padding:3px 10px;border-radius:8px;color:#666;font-weight:500}
+.sell-desire{font-size:13px;color:#666;padding:4px 14px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #f2f2f7;margin:0 14px 10px}
+.sell-desire .star{color:#ff9500}
+.sell-desire .bonus{color:#ff9500;font-weight:600;font-size:11px}
+.sell-label{font-size:12px;font-weight:600;color:#8e8e93;text-transform:uppercase;letter-spacing:.3px;padding:0 14px;margin-bottom:6px}
+.sell-drugs{display:flex;gap:6px;padding:0 14px;margin-bottom:12px}
+.sell-drug-btn{flex:1;padding:8px 4px;border-radius:10px;border:2px solid #e5e5ea;background:#fff;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;text-align:center}
+.sell-drug-btn:active{opacity:.7}
+.sell-drug-btn.active{border-color:#007aff;background:rgba(0,122,255,.1);color:#007aff}
+.sell-drug-btn.desired{border-color:#ff9500;background:rgba(255,149,0,.1)}
+.sell-drug-btn.desired.active{border-color:#ff9500;background:rgba(255,149,0,.15);color:#ff9500}
+.sell-qty{display:flex;align-items:center;gap:6px;padding:0 14px;margin-bottom:12px}
+.sell-qty button{width:36px;height:36px;border-radius:8px;border:1px solid #e5e5ea;background:#fff;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.sell-qty button:active{background:#f2f2f7}
+.sell-qty .sell-qty-value{font-size:20px;font-weight:700;min-width:50px;text-align:center}
+.sell-qty .sell-qty-max{font-size:11px;color:#8e8e93;margin-left:auto}
+.sell-payout{background:#f2f2f7;margin:8px 14px;padding:12px 14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.sell-payout .label{font-size:12px;color:#666;font-weight:500}
+.sell-payout .value{font-size:18px;font-weight:700;color:#34c759}
+.sell-payout .value.none{color:#999}
+.sell-btn-wrap{padding:8px 14px 14px}
+.sell-btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;background:#34c759;color:#fff}
+.sell-btn:active{opacity:.7}
+.sell-btn:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+.sell-inv{font-size:11px;color:#8e8e93;text-align:center;padding:0 14px 4px}
+/* Settings */
+.setting-item{background:#fff;margin:6px 12px;padding:12px 14px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center}
+.setting-item .left{display:flex;flex-direction:column;gap:2px}
+.setting-item .label{font-size:14px;font-weight:500}
+.setting-item .desc{font-size:11px;color:#8e8e93}
+.toggle{width:48px;height:28px;border-radius:14px;background:#e5e5ea;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:#34c759}
+.toggle::after{content:'';width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on::after{transform:translateX(20px)}
+/* Upgrades */
+.upgrade-card{background:#fff;margin:6px 12px;padding:12px 14px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center}
+.upgrade-card .info{flex:1;display:flex;flex-direction:column;gap:2px}
+.upgrade-card .name{font-size:14px;font-weight:600}
+.upgrade-card .desc{font-size:11px;color:#8e8e93}
+.upgrade-card .level{font-size:11px;color:#007aff}
+.upgrade-card .btn-buy{padding:6px 16px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:#007aff;color:#fff;flex-shrink:0}
+.upgrade-card .btn-buy:active{opacity:.7}
+.upgrade-card .btn-buy:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+/* Drugs */
+.drug-section{padding:10px 12px}
+.drug-select{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+.drug-btn{padding:10px;border-radius:10px;border:2px solid #e5e5ea;background:#fff;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center}
+.drug-btn.active{border-color:#007aff;background:rgba(0,122,255,.08)}
+.drug-btn:active{transform:scale(.97)}
+.drug-controls{background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:8px}
+.drug-controls .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.drug-controls .row:last-child{margin-bottom:0}
+.drug-controls .label{font-size:12px;color:#666}
+.drug-controls .value{font-weight:600;font-size:14px}
+.qty-btns{display:flex;gap:4px}
+.qty-btn{padding:4px 10px;border-radius:6px;border:1px solid #e5e5ea;background:#fff;font-size:12px;cursor:pointer}
+.qty-btn.active{border-color:#007aff;background:rgba(0,122,255,.1);color:#007aff}
+.ing-select{width:100%;padding:8px;border-radius:8px;border:1px solid #e5e5ea;font-size:13px;margin-top:4px}
+.btn-craft{width:100%;padding:12px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;background:#007aff;color:#fff;transition:all .2s}
+.btn-craft:active{opacity:.7}
+.btn-craft:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+.progress-bar{height:20px;background:#e5e5ea;border-radius:10px;overflow:hidden;margin-top:6px}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,#34c759,#30d158);border-radius:10px;transition:width .5s ease-out;width:0%}
+.inv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:8px}
+.inv-item{background:#fff;padding:8px;border-radius:8px;text-align:center;font-size:11px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.inv-item .qty{font-size:16px;font-weight:700;color:#007aff}
+.inv-item .type{color:#666}
+.inv-item .enh{color:#ff9500;font-size:10px}
+/* Mixr */
+.tab-bar{display:flex;background:rgba(255,255,255,.95);border-bottom:1px solid #e5e5ea;flex-shrink:0}
+.tab-btn{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;color:#8e8e93;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab-btn.active{color:#007aff;border-bottom-color:#007aff}
+.ingredient-card{background:#fff;margin:6px 12px;padding:10px 12px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center}
+.ingredient-card .left{flex:1}
+.ingredient-card .ing-name{font-weight:600;font-size:14px}
+.ingredient-card .ing-desc{font-size:11px;color:#8e8e93;margin-top:2px}
+.ingredient-card .ing-owned{font-size:11px;color:#007aff;margin-top:2px}
+.ingredient-card .right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.ingredient-card .ing-price{font-weight:700;font-size:14px;color:#8e8e93}
+.ingredient-card .btn-buy{padding:4px 12px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;background:#34c759;color:#fff}
+.ingredient-card .btn-buy:active{opacity:.7}
+.ingredient-card .btn-buy:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+/* Mix tab */
+.mix-area{padding:12px}
+.mix-card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:10px}
+.mix-card select{width:100%;padding:10px;border-radius:8px;border:1px solid #e5e5ea;font-size:13px;margin-bottom:8px}
+.mix-card .btn-mix{width:100%;padding:10px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:#ff9500;color:#fff;transition:all .2s}
+.mix-card .btn-mix:active{opacity:.7}
+.mix-card .btn-mix:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+/* Empty state */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:#8e8e93}
+.empty-state .icon{font-size:48px;margin-bottom:12px}
+.empty-state .text{font-size:14px;text-align:center}
+/* Home indicator */
+#home-indicator{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:120px;height:4px;border-radius:2px;background:rgba(255,255,255,.8);z-index:100;transition:background .25s}
+.home-indicator-black{background:rgba(0,0,0,.2)!important}
+/* News */
+.news-item{background:#fff;margin:6px 12px;padding:12px 14px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.news-item .news-headline{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.news-item .news-headline .trend-up{color:#34c759}
+.news-item .news-headline .trend-down{color:#ff3b30}
+.news-item .news-detail{font-size:12px;color:#666;margin-bottom:4px}
+.news-item .news-region{font-size:11px;color:#8e8e93;display:flex;gap:6px;flex-wrap:wrap}
+.news-item .news-region span{background:#f2f2f7;padding:1px 6px;border-radius:4px}
+.news-item .news-time{font-size:10px;color:#c7c7cc;margin-top:2px}
+.news-badge{background:#ff3b30;color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.news-breaking{background:#ff3b30;color:#fff;margin:6px 12px;padding:12px 14px;border-radius:12px;box-shadow:0 2px 8px rgba(255,59,48,.3)}
+.news-breaking .news-headline{color:#fff}
+.news-breaking .news-detail{color:rgba(255,255,255,.85)}
+.news-breaking .news-region span{background:rgba(255,255,255,.2);color:rgba(255,255,255,.9)}
+.news-breaking .news-time{color:rgba(255,255,255,.5)}
+.news-breaking .trend-up{color:#8f8}
+.news-breaking .trend-down{color:#f88}
+/* Notif toast */
+.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(0,0,0,.85);color:#fff;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:200;opacity:0;transition:opacity .25s ease,transform .25s ease;pointer-events:none;white-space:nowrap;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Section header */
+.sec-header{padding:14px 14px 4px;font-size:12px;font-weight:600;color:#8e8e93;text-transform:uppercase;letter-spacing:.5px}
+/* crafting overlay */
+.crafting-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:50}
+.crafting-box{background:#fff;border-radius:20px;padding:24px;text-align:center;width:220px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.crafting-box .icon{font-size:40px;margin-bottom:8px}
+.crafting-box .text{font-size:14px;font-weight:500;margin-bottom:6px}
+.crafting-box .sub{font-size:11px;color:#8e8e93;margin-bottom:12px}
+.crafting-box .bar{height:6px;background:#e5e5ea;border-radius:3px;overflow:hidden}
+.crafting-box .bar .fill{height:100%;background:#34c759;border-radius:3px;transition:width .5s}
+/* auto-select dropdown */
+.select-auto{width:100%;padding:8px;border-radius:8px;border:1px solid #e5e5ea;font-size:12px;margin-top:4px}
+/* Dark mode */
+#screen.dark{background:#1c1c1e}
+#screen.dark .nav-bar{background:rgba(44,44,46,.98);color:#fff;border-bottom-color:#3a3a3c}
+#screen.dark .nav-bar .title{color:#fff!important}
+#screen.dark .tab-bar{background:rgba(44,44,46,.98);border-bottom-color:#3a3a3c}
+#screen.dark #hud{background:#2c2c2e;color:#fff;border-bottom-color:#3a3a3c}
+#screen.dark #status-bar{color:#fff}
+#screen.dark .order-card{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .order-card .name{color:#fff}
+#screen.dark .order-card .details{color:#a0a0a0}
+#screen.dark .order-card .details span{background:#3a3a3c}
+#screen.dark .setting-item{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .setting-item .label{color:#fff}
+#screen.dark .setting-item .desc{color:#8e8e93}
+#screen.dark .upgrade-card{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .upgrade-card .name{color:#fff}
+#screen.dark .upgrade-card .desc{color:#a0a0a0}
+#screen.dark .drug-controls{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .drug-controls .label{color:#a0a0a0}
+#screen.dark .drug-controls .value{color:#fff}
+#screen.dark .drug-btn{background:#2c2c2e;border-color:#3a3a3c;color:#ccc}
+#screen.dark .drug-btn.active{border-color:#0a84ff;background:rgba(10,132,255,.15);color:#fff}
+#screen.dark .qty-btn{background:#3a3a3c;border-color:#4a4a4c;color:#ccc}
+#screen.dark .qty-btn.active{background:rgba(10,132,255,.2);border-color:#0a84ff;color:#fff}
+#screen.dark .ingredient-card{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .ingredient-card .ing-name{color:#fff}
+#screen.dark .ingredient-card .ing-desc{color:#a0a0a0}
+#screen.dark .mix-card{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .mix-card select{background:#3a3a3c;border-color:#4a4a4c;color:#fff}
+#screen.dark .inv-item{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .inv-item .type{color:#a0a0a0}
+#screen.dark .sec-header{color:#8e8e93}
+#screen.dark .empty-state .text{color:#8e8e93}
+#screen.dark .toggle{background:#3a3a3c}
+#screen.dark .ing-select{background:#3a3a3c;border-color:#4a4a4c;color:#fff}
+#screen.dark .select-auto{background:#3a3a3c;border-color:#4a4a4c;color:#fff}
+#screen.dark .area-card{background:#2c2c2e;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+#screen.dark .area-card .area-name{color:#fff}
+#screen.dark .area-card .area-stats{color:#a0a0a0}
+#screen.dark .area-card .area-count{background:#3a3a3c;color:#a0a0a0}
+#screen.dark .contact-item{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .contact-item .contact-name{color:#fff}
+#screen.dark .contact-item .contact-desire{color:#a0a0a0}
+#screen.dark .contact-item .contact-arrow{color:#555}
+#screen.dark .contact-item .contact-avatar{background:#3a3a3c;color:#a0a0a0}
+#screen.dark .sell-header .sell-name{color:#fff}
+#screen.dark .sell-header .sell-area-badge{background:#3a3a3c;color:#a0a0a0}
+#screen.dark .sell-desire{color:#a0a0a0;border-bottom-color:#3a3a3c}
+#screen.dark .sell-label{color:#8e8e93}
+#screen.dark .sell-drug-btn{background:#2c2c2e;border-color:#3a3a3c;color:#ccc}
+#screen.dark .sell-drug-btn.active{border-color:#0a84ff;background:rgba(10,132,255,.15);color:#0a84ff}
+#screen.dark .sell-drug-btn.desired{border-color:#ff9500;background:rgba(255,149,0,.1)}
+#screen.dark .sell-drug-btn.desired.active{border-color:#ff9500;background:rgba(255,149,0,.15);color:#ff9500}
+#screen.dark .sell-qty button{background:#2c2c2e;border-color:#3a3a3c;color:#fff}
+#screen.dark .sell-qty button:active{background:#3a3a3c}
+#screen.dark .sell-qty .sell-qty-value{color:#fff}
+#screen.dark .sell-qty .sell-qty-max{color:#8e8e93}
+#screen.dark .sell-payout{background:#3a3a3c}
+#screen.dark .sell-payout .label{color:#a0a0a0}
+#screen.dark .sell-btn:disabled{background:#3a3a3c;color:#666}
+#screen.dark .sell-inv{color:#8e8e93}
+#screen.dark .setting-item button{background:#3a3a3c;border-color:#4a4a4c;color:#fff}
+#screen.dark .setting-item button:active{background:#4a4a4c}
+#screen.dark .setting-item input{background:#3a3a3c;border-color:#4a4a4c;color:#fff}
+#screen.dark .news-item{background:#2c2c2e;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+#screen.dark .news-item .news-headline{color:#fff}
+#screen.dark .news-item .news-detail{color:#a0a0a0}
+#screen.dark .news-item .news-region span{background:#3a3a3c;color:#a0a0a0}
+#screen.dark .news-item .news-time{color:#555}
+#screen.dark .empty-state .text{color:#8e8e93}
+
+/* Terminal */
+#terminal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:400px;background:#0d0d0d;border:1px solid #333;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.7);z-index:1000;display:none;font-family:'Courier New',monospace;font-size:13px;overflow:hidden;resize:both;min-width:320px;min-height:240px}
+#terminal.show{display:block}
+#terminal .term-title{height:32px;background:#1a1a1a;display:flex;align-items:center;padding:0 10px;cursor:move;border-bottom:1px solid #333;user-select:none}
+#terminal .term-title span{flex:1;color:#aaa;font-size:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#terminal .term-title .term-btn{width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;margin-left:6px;background:0 0;color:#666;transition:color .2s}
+#terminal .term-title .term-btn:hover{color:#fff}
+#terminal .term-title .term-close{background:#ff5f57;width:12px;height:12px;border-radius:50%;border:none;cursor:pointer;margin-right:8px;transition:opacity .2s}
+#terminal .term-title .term-close:hover{opacity:.8}
+#terminal .term-title .term-min{background:#febc2e;width:12px;height:12px;border-radius:50%;border:none;cursor:pointer;margin-right:6px;transition:opacity .2s}
+#terminal .term-title .term-min:hover{opacity:.8}
+#terminal .term-title .term-max{background:#28c840;width:12px;height:12px;border-radius:50%;border:none;cursor:pointer;margin-right:auto;transition:opacity .2s}
+#terminal .term-title .term-label{color:#888;font-size:11px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin-left:6px}
+#terminal .term-body{height:calc(100% - 32px);display:flex;flex-direction:column;padding:8px}
+#terminal .term-output{flex:1;overflow-y:auto;color:#33ff33;padding:4px;line-height:1.5;white-space:pre-wrap;word-break:break-all}
+#terminal .term-output .line{display:block}
+#terminal .term-output .line.error{color:#ff5f57}
+#terminal .term-output .line.success{color:#28c840}
+#terminal .term-output .line.info{color:#5ac8fa}
+#terminal .term-output .line.warn{color:#febc2e}
+#terminal .term-output .line.system{color:#888}
+#terminal .term-input-row{display:flex;align-items:center;background:#1a1a1a;border-radius:4px;padding:4px 8px;margin-top:4px;flex-shrink:0}
+#terminal .term-input-row .prompt{color:#33ff33;margin-right:6px;font-size:13px}
+#terminal .term-input-row input{flex:1;background:0 0;border:none;color:#33ff33;font-family:'Courier New',monospace;font-size:13px;outline:none}
+#terminal .term-input-row input::placeholder{color:#555}
+/* Root Terminal */
+#rootTerm{position:fixed;top:40px;left:40px;width:520px;height:460px;background:#000;border:1px solid #555;border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.8);z-index:1100;display:none;font-family:'Courier New',monospace;font-size:13px;overflow:hidden;min-width:340px;min-height:260px}
+#rootTerm.show{display:block}
+#rootTerm .rt-title{height:28px;background:#111;display:flex;align-items:center;padding:0 8px;cursor:move;border-bottom:1px solid #444;user-select:none}
+#rootTerm .rt-title .rt-label{color:#aaa;font-size:11px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;flex:1}
+#rootTerm .rt-title .rt-close{width:14px;height:14px;border-radius:50%;border:none;cursor:pointer;background:#555;transition:background .2s;margin-left:auto}
+#rootTerm .rt-title .rt-close:hover{background:#fff}
+#rootTerm .rt-tabs{display:flex;background:#111;border-bottom:1px solid #444;flex-shrink:0}
+#rootTerm .rt-tab{flex:1;padding:6px;text-align:center;font-size:11px;font-weight:600;color:#666;cursor:pointer;border-bottom:2px solid transparent;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:.5px}
+#rootTerm .rt-tab.active{color:#fff;border-bottom-color:#fff}
+#rootTerm .rt-body{height:calc(100% - 58px);display:flex;flex-direction:column;padding:6px}
+#rootTerm .rt-output{flex:1;overflow-y:auto;color:#ccc;padding:4px;line-height:1.5;white-space:pre-wrap;word-break:break-all;font-size:12px}
+#rootTerm .rt-output .line{display:block}
+#rootTerm .rt-output .line.cmd{color:#fff;font-weight:600}
+#rootTerm .rt-output .line.err{color:#999}
+#rootTerm .rt-output .line.ok{color:#aaa}
+#rootTerm .rt-input-row{display:flex;align-items:center;background:#111;border:1px solid #333;border-radius:3px;padding:3px 6px;margin-top:4px;flex-shrink:0}
+#rootTerm .rt-input-row .prompt{color:#fff;margin-right:4px;font-size:12px;font-weight:700}
+#rootTerm .rt-input-row input{flex:1;background:0 0;border:none;color:#fff;font-family:'Courier New',monospace;font-size:12px;outline:none}
+#rootTerm .rt-input-row input::placeholder{color:#444}
+/* Inspect tab */
+#rootTerm .rt-inspect{flex:1;overflow-y:auto;padding:4px;color:#ccc;font-size:12px}
+#rootTerm .rt-inspect .insp-row{display:flex;justify-content:space-between;padding:3px 4px;border-bottom:1px solid #222;cursor:pointer}
+#rootTerm .rt-inspect .insp-row:hover{background:#111}
+#rootTerm .rt-inspect .insp-key{color:#888}
+#rootTerm .rt-inspect .insp-val{color:#fff;font-weight:600}
+#rootTerm .rt-inspect .insp-edit{display:flex;gap:4px;padding:6px 4px;border-bottom:1px solid #333}
+#rootTerm .rt-inspect .insp-edit input{flex:1;background:#111;border:1px solid #444;border-radius:2px;color:#fff;padding:4px 6px;font-family:'Courier New',monospace;font-size:12px;outline:none}
+#rootTerm .rt-inspect .insp-edit input:focus{border-color:#fff}
+#rootTerm .rt-inspect .insp-edit button{padding:3px 10px;border:1px solid #555;border-radius:2px;background:#222;color:#fff;cursor:pointer;font-size:11px}
+#rootTerm .rt-inspect .insp-edit button:hover{background:#333}
+@keyframes fadeIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+/* Browser */
+#browser{display:flex;flex-direction:column;height:100%}
+.br-tab-bar{height:36px;background:#dee1e6;display:flex;align-items:center;padding:0 8px;gap:6px;flex-shrink:0}
+.br-tab{flex:1;max-width:160px;height:26px;background:#fff;border-radius:6px 6px 0 0;display:flex;align-items:center;padding:0 8px;font-size:11px;color:#333;gap:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:default}
+.br-tab .close{width:16px;height:16px;border-radius:50%;border:none;background:0 0;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#888}
+.br-tab .close:hover{background:#e5e5ea;color:#333}
+.br-tab.active{background:#f2f2f7}
+.br-nav{height:38px;display:flex;align-items:center;padding:0 8px;gap:6px;background:#f2f2f7;flex-shrink:0}
+.br-nav .lock{font-size:10px;color:#34c759}
+.br-addr{flex:1;height:24px;background:#fff;border:1px solid #d1d1d6;border-radius:6px;padding:0 8px;font-size:11px;color:#333;display:flex;align-items:center;gap:4px}
+.br-addr input{flex:1;border:none;background:0 0;font-size:11px;outline:none;color:#333}
+.br-bookmarks{display:flex;gap:10px;padding:10px 14px;background:#f2f2f7;border-bottom:1px solid #d1d1d6;flex-shrink:0;overflow-x:auto}
+.br-bookmark{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-width:48px;transition:transform .15s}
+.br-bookmark:active{transform:scale(.92)}
+.br-bookmark .bm-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.br-bookmark .bm-label{font-size:9px;color:#555;text-align:center;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.br-content{flex:1;overflow-y:auto;padding:10px 12px;background:#fff}
+#screen.dark .br-tab-bar{background:#1c1c1e}
+#screen.dark .br-tab{background:#2c2c2e;color:#ccc}
+#screen.dark .br-tab.active{background:#1c1c1e;color:#fff}
+#screen.dark .br-nav{background:#1c1c1e}
+#screen.dark .br-addr{background:#2c2c2e;border-color:#3a3a3c}
+#screen.dark .br-addr input{color:#fff;background:0 0}
+#screen.dark .br-bookmarks{background:#1c1c1e;border-color:#3a3a3c}
+#screen.dark .br-bookmark .bm-icon{box-shadow:0 1px 3px rgba(0,0,0,.3)}
+#screen.dark .br-bookmark .bm-label{color:#999}
+#screen.dark .br-content{background:#000;color:#ccc}
+/* Backmarket */
+.bm-header{text-align:center;padding:8px 0 12px;border-bottom:1px solid #e5e5ea;margin-bottom:10px}
+.bm-header h2{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+.bm-header .tagline{font-size:10px;color:#888}
+.bm-actions{display:flex;gap:8px;margin-bottom:10px}
+.bm-actions button{flex:1;padding:8px;border-radius:8px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.bm-actions button:active{opacity:.7}
+.bm-btn-refresh{background:#007aff;color:#fff}
+.bm-btn-refresh:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+.bm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.bm-slot{background:#f9f9f9;border:1px solid #e5e5ea;border-radius:8px;padding:8px;text-align:center;min-height:80px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px}
+.bm-slot .icon{font-size:18px}
+.bm-slot .name{font-size:11px;font-weight:600;color:#333}
+.bm-slot .desc{font-size:9px;color:#888}
+.bm-slot .cost{font-size:11px;font-weight:700;color:#ff9500;margin:2px 0}
+.bm-slot .btn-buy{padding:4px 12px;border-radius:6px;border:none;font-size:10px;font-weight:600;cursor:pointer;background:#34c759;color:#fff;transition:all .2s}
+.bm-slot .btn-buy:active{opacity:.7}
+.bm-slot .btn-buy:disabled{background:#e5e5ea;color:#999;cursor:not-allowed}
+.bm-slot .active-label{font-size:9px;color:#34c759;font-weight:600}
+.bm-slot .timer-bar{height:3px;background:#e5e5ea;border-radius:2px;overflow:hidden;width:100%;margin-top:2px}
+.bm-slot .timer-bar .fill{height:100%;background:#34c759;border-radius:2px;transition:width .3s}
+.bm-slot.empty{background:0 0;border:1px dashed #d1d1d6;color:#bbb;font-size:10px}
+/* dark */
+#screen.dark .bm-header{border-color:#3a3a3c}
+#screen.dark .bm-header h2{color:#eee}
+#screen.dark .bm-slot{background:#1c1c1e;border-color:#3a3a3c}
+#screen.dark .bm-slot .name{color:#ddd}
+#screen.dark .bm-slot .desc{color:#777}
+#screen.dark .bm-slot{color:#bbb}
+#screen.dark .bm-btn-refresh:disabled{background:#2c2c2e;color:#666}
+</style>
+</head>
+<body>
+<div id="phone">
+  <div id="notch"></div>
+  <div id="screen">
+    <div id="status-bar">
+      <span class="time" id="statusTime">01:20</span>
+      <span class="icons">📶 📶 🔋</span>
+    </div>
+    <div id="hud">
+      <span class="money" id="hudMoney">💰 $500</span>
+      <span class="lvl" id="hudLvl">Lvl 1 (0/1600)</span>
+      <span class="orders" id="hudOrders">📋 3</span>
+    </div>
+    <div id="content">
+    <div class="home-grid">
+      <div class="app-icon" onclick="navigate(&#39;contacts&#39;)">
+        <div class="icon-wrap" style="background:#34c759">📞</div>
+        <span class="label">Contacts</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;settings&#39;)">
+        <div class="icon-wrap" style="background:#8e8e93">⚙️</div>
+        <span class="label">Settings</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;development&#39;)">
+        <div class="icon-wrap" style="background:#af52de">🧪</div>
+        <span class="label">Development</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;drugs&#39;)">
+        <div class="icon-wrap" style="background:#fff;color:#333;border:1px solid #e5e5ea">🌸</div>
+        <span class="label">Drugs.inc</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;mixr&#39;)">
+        <div class="icon-wrap" style="background:#5ac8fa">🔬</div>
+        <span class="label">Mixr.dev</span>
+      </div>
+      <div class="app-icon" onclick="openTerminal()">
+        <div class="icon-wrap" style="background:#0d0d0d;border:1px solid #333">💻</div>
+        <span class="label">Terminal</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;browser&#39;)">
+        <div class="icon-wrap" style="background:#fff;border:2px solid #4285f4;color:#4285f4;font-size:22px">🌐</div>
+        <span class="label">Browser</span>
+      </div>
+      <div class="app-icon" onclick="navigate(&#39;news&#39;)">
+        <div class="icon-wrap" style="background:#ff9500">📰</div>
+        <span class="label">News</span>
+        <span class="badge">1</span>
+      </div>
+      
+    </div></div>
+    <div id="home-indicator" class="home-indicator-black"></div>
+  </div>
+  <div id="toast" class="toast show">📞 New order from Carmen: 8x Meth</div>
+</div>
+<div id="terminal" style="display: none; transform: none; left: 1066.67px; top: 617.222px;">
+  <div class="term-title">
+    <button class="term-close" onclick="closeTerminal()"></button>
+    <button class="term-min" onclick="toggleTermMin()"></button>
+    <button class="term-max" onclick="toggleTermMax()"></button>
+    <span class="term-label">Terminal</span>
+    <span></span>
+  </div>
+  <div class="term-body">
+    <div class="term-output" id="termOutput"><span class="line system">🧪 Schedule II Terminal v1.0</span><span class="line system">Type "help" for available commands</span><span class="line prompt">$ reset --force</span><span class="line success">✅ Game reset to factory state. $500 balance restored.</span></div>
+    <div class="term-input-row">
+      <span class="prompt">$</span>
+      <input type="text" id="termInput" placeholder="type help for commands" autofocus="">
+    </div>
+  </div>
+</div>
+<div id="rootTerm" style="display: none; transform: none; left: 40px; top: 40px;">
+  <div class="rt-title">
+    <span class="rt-label">ROOT TERMINAL</span>
+    <button class="rt-close" onclick="closeRootTerm()"></button>
+  </div>
+  <div class="rt-tabs">
+    <div class="rt-tab active" onclick="switchRTab(&#39;terminal&#39;)">TERMINAL</div>
+    <div class="rt-tab" onclick="switchRTab(&#39;inspect&#39;)">INSPECT</div>
+  </div>
+  <div class="rt-body">
+    <div class="rt-output" id="rtOutput"><span class="line">ROOT TERMINAL TOGGLED</span><span class="line">// Type "help" for commands</span></div>
+    <div class="rt-input-row" id="rtInputRow">
+      <span class="prompt">#</span>
+      <input type="text" id="rtInput" placeholder="type help for 30 commands" onkeydown="if(event.key===&#39;Enter&#39;)processRCmd()">
+    </div>
+    <div class="rt-inspect" id="rtInspect" style="display:none"></div>
+  </div>
+</div>
+<script>
+// ===== GAME DATA =====
+const DRUGS = [
+  {id:'weed', name:'Weed', icon:'🌿', baseCost:20, basePrice:50, craftTime:5},
+  {id:'cocaine', name:'Cocaine', icon:'❄️', baseCost:60, basePrice:150, craftTime:10},
+  {id:'meth', name:'Meth', icon:'💎', baseCost:120, basePrice:300, craftTime:18},
+  {id:'lsd', name:'LSD', icon:'🌈', baseCost:200, basePrice:500, craftTime:25}
+];
+const INGREDIENTS = [
+  // Tier 1 (unlocked at level 1) — Corner Store items
+  {id:'fertilizer', name:'Fertilizer', desc:'Random 10-70% quality boost', price:30, minLvl:1, effect:{all:0}, randomEffect:{type:'quality',min:0.1,max:0.7}},
+  {id:'batteryAcid', name:'Battery Acid', desc:'Random 10-40% craft speed', price:80, minLvl:1, effect:{all:0}, randomEffect:{type:'speed',min:0.1,max:0.4}},
+  {id:'lighterFluid', name:'Lighter Fluid', desc:'Random 5-15% yield boost', price:60, minLvl:1, effect:{all:0}, randomEffect:{type:'yield',min:0.05,max:0.15}},
+  {id:'gasoline', name:'Gasoline', desc:'Random 10-30% cost discount', price:120, minLvl:1, effect:{all:0}, randomEffect:{type:'discount',min:0.1,max:0.3}},
+  {id:'paintThinner', name:'Paint Thinner', desc:'Random 5-20% payout boost', price:180, minLvl:1, effect:{all:0}, randomEffect:{type:'payout',min:0.05,max:0.2}},
+  {id:'sugar', name:'Sugar', desc:'Random 10-50% XP boost', price:40, minLvl:1, effect:{all:0}, randomEffect:{type:'xp',min:0.1,max:0.5}},
+  // Tier 2 (unlock at level 10) — Hardware Store
+  {id:'ammonia', name:'Ammonia', desc:'Random 20-60% quality boost', price:100, minLvl:10, effect:{all:0}, randomEffect:{type:'quality',min:0.2,max:0.6}},
+  {id:'acetone', name:'Acetone', desc:'Random 10-30% craft speed', price:150, minLvl:10, effect:{all:0}, randomEffect:{type:'speed',min:0.1,max:0.3}},
+  {id:'bleach', name:'Bleach', desc:'Random 10-20% yield boost', price:200, minLvl:10, effect:{all:0}, randomEffect:{type:'yield',min:0.1,max:0.2}},
+  // Tier 3 (unlock at level 20) — Pharmacy
+  {id:'iodine', name:'Iodine', desc:'Random 15-40% payout boost', price:300, minLvl:20, effect:{all:0}, randomEffect:{type:'payout',min:0.15,max:0.4}},
+  {id:'hcl', name:'Hydrochloric Acid', desc:'Random 20-60% XP boost', price:400, minLvl:20, effect:{all:0}, randomEffect:{type:'xp',min:0.2,max:0.6}},
+  {id:'sulfuric', name:'Sulfuric Acid', desc:'Random 15-40% cost discount', price:350, minLvl:20, effect:{all:0}, randomEffect:{type:'discount',min:0.15,max:0.4}},
+  // Tier 4 (unlock at level 30) — Chemical Supply
+  {id:'toluene', name:'Toluene', desc:'Random 30-70% quality boost', price:600, minLvl:30, effect:{all:0}, randomEffect:{type:'quality',min:0.3,max:0.7}},
+  {id:'methanol', name:'Methanol', desc:'Random 20-50% craft speed', price:800, minLvl:30, effect:{all:0}, randomEffect:{type:'speed',min:0.2,max:0.5}},
+  {id:'ethanol', name:'Ethanol', desc:'Random 15-30% yield boost', price:700, minLvl:30, effect:{all:0}, randomEffect:{type:'yield',min:0.15,max:0.3}},
+  // Tier 5 (unlock at level 40) — Industrial Supply
+  {id:'drainCleaner', name:'Drain Cleaner', desc:'Random 30-60% payout boost', price:1400, minLvl:40, effect:{all:0}, randomEffect:{type:'payout',min:0.3,max:0.6}},
+  {id:'denatured', name:'Denatured Alcohol', desc:'Random 30-70% XP boost', price:1800, minLvl:40, effect:{all:0}, randomEffect:{type:'xp',min:0.3,max:0.7}},
+  {id:'muriatic', name:'Muriatic Acid', desc:'Random 25-55% cost discount', price:1500, minLvl:40, effect:{all:0}, randomEffect:{type:'discount',min:0.25,max:0.55}},
+  // Tier 6 (unlock at level 50) — Black Market
+  {id:'industrialSolvent', name:'Industrial Solvent', desc:'Random 40-80% quality boost', price:3000, minLvl:50, effect:{all:0}, randomEffect:{type:'quality',min:0.4,max:0.8}},
+  {id:'pureEther', name:'Pure Ether', desc:'Random 25-50% craft speed', price:4000, minLvl:50, effect:{all:0}, randomEffect:{type:'speed',min:0.25,max:0.5}},
+  {id:'nitricAcid', name:'Nitric Acid', desc:'Random 25-45% yield boost', price:5000, minLvl:50, effect:{all:0}, randomEffect:{type:'yield',min:0.25,max:0.45}}
+];
+const SPECIAL_INGREDIENTS = [
+  {id:'mysteriousHerb', name:'Mysterious Herb', desc:'+50% Weed +25% All ⚡Auto-sells 2% of weed each tick', minLvl:1, effect:{weed:0.50,all:0.25}, passive:'autoSellWeed'},
+  {id:'growthHormones', name:'Growth Hormones', desc:'+30% Yield +15% All ⚡Doubles yield on next craft', minLvl:1, effect:{yield:0.30,all:0.15}, passive:'doubleYield'},
+  {id:'cryogenicFluid', name:'Cryogenic Fluid', desc:'+60% Meth/Cocaine ⚡Every 10th order pays 3x', minLvl:5, effect:{cocaine:0.60,meth:0.60}, passive:'tripleOrder'},
+  {id:'prismaticOil', name:'Prismatic Oil', desc:'+70% LSD ⚡+1 random ingredient every 60s', minLvl:5, effect:{lsd:0.70}, passive:'genIngredient'},
+  {id:'quantumParticles', name:'Quantum Particles', desc:'+45% All ⚡Craft time -20% when owned', minLvl:15, effect:{all:0.45}, passive:'speedCraft'},
+  {id:'spectrumPowder', name:'Spectrum Powder', desc:'+75% Any drug ⚡+15% payout on all orders', minLvl:15, effect:{all:0.75}, passive:'payoutBoost'},
+  {id:'stasisFluid', name:'Stasis Fluid', desc:'+60% All stacking ⚡Orders last 50% longer', minLvl:25, effect:{all:0.60}, passive:'longerOrders'},
+  {id:'voidConcentrate', name:'Void Concentrate', desc:'+100% All ⚡+1 of each ingredient every 30s', minLvl:25, effect:{all:1.00}, passive:'ingredientGen'},
+  {id:'alchemistCatalyst', name:"Alchemist's Catalyst", desc:'+150% All +30% Yield ⚡Auto-crafts 1 weed/30s', minLvl:35, effect:{all:1.50,yield:0.30}, passive:'autoCraftMini'},
+  {id:'cosmicEssence', name:'Cosmic Essence', desc:'+250% All (ultimate) ⚡2x XP gain', minLvl:45, effect:{all:2.50}, passive:'xpBoost'}
+];
+const AREAS = [
+  {id:'downtown', name:'Downtown', icon:'🏙️', color:'#007aff', desc:'High-end clientele with deep pockets', mostWanted:'cocaine', payLabel:'$200-400', desiredPayMult:1.8, otherPayMult:0.8, moneyRange:[2000,5000]},
+  {id:'slums', name:'Slums', icon:'🏚️', color:'#8e8e93', desc:'Desperate users looking for cheap fixes', mostWanted:'weed', payLabel:'$30-80', desiredPayMult:1.5, otherPayMult:0.6, moneyRange:[500,1500]},
+  {id:'countryside', name:'Countryside', icon:'🌾', color:'#34c759', desc:'Laid-back rural customers', mostWanted:'lsd', payLabel:'$60-150', desiredPayMult:1.6, otherPayMult:0.7, moneyRange:[800,2000]},
+  {id:'city', name:'City', icon:'🏛️', color:'#ff3b30', desc:'Fast-paced urban market', mostWanted:'meth', payLabel:'$150-350', desiredPayMult:1.7, otherPayMult:0.75, moneyRange:[1500,10000]}
+];
+const CONTACTS = [
+  // Downtown (18)
+  {id:1, name:'Gustavo F.', area:'downtown', desiredDrug:'cocaine'},
+  {id:2, name:'Lydia R.', area:'downtown', desiredDrug:'lsd'},
+  {id:3, name:'Gale B.', area:'downtown', desiredDrug:'meth'},
+  {id:4, name:'Howard H.', area:'downtown', desiredDrug:'cocaine'},
+  {id:5, name:'Kim W.', area:'downtown', desiredDrug:'weed'},
+  {id:6, name:'Walter W.', area:'downtown', desiredDrug:'meth'},
+  {id:7, name:'Saul G.', area:'downtown', desiredDrug:'lsd'},
+  {id:8, name:'Mike E.', area:'downtown', desiredDrug:'cocaine'},
+  {id:9, name:'Skyler W.', area:'downtown', desiredDrug:'weed'},
+  {id:10, name:'Bogdan W.', area:'downtown', desiredDrug:'cocaine'},
+  {id:11, name:'Ira', area:'downtown', desiredDrug:'meth'},
+  {id:12, name:'Danny', area:'downtown', desiredDrug:'weed'},
+  {id:13, name:'Cliff M.', area:'downtown', desiredDrug:'cocaine'},
+  {id:14, name:'Rich S.', area:'downtown', desiredDrug:'lsd'},
+  {id:15, name:'Kevin W.', area:'downtown', desiredDrug:'meth'},
+  {id:16, name:'Paige N.', area:'downtown', desiredDrug:'cocaine'},
+  {id:17, name:'Francesca', area:'downtown', desiredDrug:'weed'},
+  {id:18, name:'Kuby', area:'downtown', desiredDrug:'lsd'},
+  // Slums (10)
+  {id:19, name:'Tuco S.', area:'slums', desiredDrug:'meth'},
+  {id:20, name:'Hector S.', area:'slums', desiredDrug:'weed'},
+  {id:21, name:'Nacho V.', area:'slums', desiredDrug:'cocaine'},
+  {id:22, name:'Lalo S.', area:'slums', desiredDrug:'lsd'},
+  {id:23, name:'Badger', area:'slums', desiredDrug:'weed'},
+  {id:24, name:'Skinny P.', area:'slums', desiredDrug:'weed'},
+  {id:25, name:'Todd A.', area:'slums', desiredDrug:'meth'},
+  {id:26, name:'Marco', area:'slums', desiredDrug:'weed'},
+  {id:27, name:'Leonel', area:'slums', desiredDrug:'cocaine'},
+  {id:28, name:'Domingo', area:'slums', desiredDrug:'weed'},
+  // Countryside (6)
+  {id:29, name:'Jesse P.', area:'countryside', desiredDrug:'weed'},
+  {id:30, name:'Jane M.', area:'countryside', desiredDrug:'lsd'},
+  {id:31, name:'Uncle J.', area:'countryside', desiredDrug:'meth'},
+  {id:32, name:'Clovis', area:'countryside', desiredDrug:'weed'},
+  {id:33, name:'Gonzo', area:'countryside', desiredDrug:'lsd'},
+  {id:34, name:'Wendy', area:'countryside', desiredDrug:'cocaine'},
+  // City (15)
+  {id:35, name:'Hank S.', area:'city', desiredDrug:'meth'},
+  {id:36, name:'Victor', area:'city', desiredDrug:'cocaine'},
+  {id:37, name:'Tyrus K.', area:'city', desiredDrug:'meth'},
+  {id:38, name:'Don E.', area:'city', desiredDrug:'cocaine'},
+  {id:39, name:'Juan B.', area:'city', desiredDrug:'weed'},
+  {id:40, name:'Huell', area:'city', desiredDrug:'weed'},
+  {id:41, name:'Gomez', area:'city', desiredDrug:'meth'},
+  {id:42, name:'Steven', area:'city', desiredDrug:'lsd'},
+  {id:43, name:'Carmen', area:'city', desiredDrug:'cocaine'},
+  {id:44, name:'Joel', area:'city', desiredDrug:'weed'},
+  {id:45, name:'Lawson', area:'city', desiredDrug:'meth'},
+  {id:46, name:'Ken', area:'city', desiredDrug:'lsd'},
+  {id:47, name:'Elliott', area:'city', desiredDrug:'cocaine'},
+  {id:48, name:'Gretchen', area:'city', desiredDrug:'meth'},
+  {id:49, name:'Spooge', area:'city', desiredDrug:'weed'}
+];
+const UPGRADES = [
+  {id:'speed', name:'Production Speed', desc:'-10% craft time per level', baseCost:200, maxLvl:Infinity, costMult:1.7, icon:'⚡'},
+  {id:'quality', name:'Quality Bonus', desc:'+5% quality per level', baseCost:300, maxLvl:Infinity, costMult:1.8, icon:'⭐'},
+  {id:'payout', name:'Payout Multiplier', desc:'+10% payout per level', baseCost:400, maxLvl:Infinity, costMult:1.9, icon:'💰'},
+  {id:'inventory', name:'Larger Inventory', desc:'+20 storage per level', baseCost:500, maxLvl:Infinity, costMult:2.0, icon:'📦'},
+  {id:'autoProduce', name:'Auto-Produce', desc:'Auto craft drugs every 10s', baseCost:2000, maxLvl:1, costMult:1, icon:'🤖'},
+  {id:'autoFulfill', name:'Auto-Fulfill', desc:'Auto complete orders', baseCost:5000, maxLvl:1, costMult:1, icon:'📋'}
+];
+// ===== GAME STATE =====
+let G = {
+  money: 500,
+  xp: 0,
+  level: 1,
+  totalEarned: 0,
+  ordersFulfilled: 0,
+  drugsCrafted: 0,
+  inventory: {weed:0, cocaine:0, meth:0, lsd:0},
+  enhanced: {}, // { 'weed': { count: 0, quality: 1.2 }, ... }
+  ingredients: {},
+  upgrades: {},
+  orders: [],
+  usedNames: [],
+  currentArea: null,
+  currentContact: null,
+  contactSellDrug: null,
+  contactSellQty: 1,
+  crafting: null, // { drugId, qty, remaining, total, ingredient }
+  currentScreen: 'home',
+  settings: {
+    autoFulfill: false,
+    autoBuyIngredient: 'none',
+    autoBuyQty: 5,
+    autoBuyInterval: 15,
+    soundEnabled: true,
+    darkMode: false,
+    autoSave: true,
+    showRootOnHome: true
+  },
+  // derived
+  xpForNext: 2000,
+  totalStorage: 2000,
+  orderCounter: 0,
+  tickCount: 0,
+  lastSaveTime: Date.now(),
+  flavorText: '',
+  rootUnlocked: false,
+  rootTerminalOpen: false,
+  _craftOverride: null,
+  browser: { currentSite: null, sites: { backmarket: { slots: [], refreshCooldown: 0 } } },
+  tempEffects: {},
+  drugMarket: {weed:1, cocaine:1, meth:1, lsd:1},
+  news: [],
+  newsTimer: 0,
+  newsUnread: 0,
+  newsCounter: 0,
+  contactFunds: {}
+};
+// ===== INIT =====
+function init() {
+  for(const ing of [...INGREDIENTS,...SPECIAL_INGREDIENTS]) G.ingredients[ing.id]=0;
+  for(const ug of UPGRADES) G.upgrades[ug.id]=0;
+  loadGame();
+  migrateEnhanced();
+  for(const d of DRUGS) if(!G.enhanced[d.id]) G.enhanced[d.id]={count:0,quality:1.0,stacked:[]};
+  updateDerived();
+  initContactFunds();
+  render();
+  setInterval(tick,1000);
+  // status bar clock
+  setInterval(()=>{
+    const d=new Date();
+    document.getElementById('statusTime').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+  },1000);
+  const d=new Date();
+  document.getElementById('statusTime').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+  if(G.settings.darkMode) applyDark(true);
+  // generate first batch of orders quickly
+  setTimeout(()=>{generateOrder();generateOrder();render();},3000);
+  setTimeout(()=>{generateOrder();render();},7000);
+}
+function updateDerived(){
+  const lvl=G.level;
+  G.xpForNext=Math.floor(1600*Math.pow(2.5,lvl-1));
+  G.totalStorage=2000 + (G.upgrades.inventory||0)*20;
+  for(const d of DRUGS){
+    if(!G.enhanced[d.id]) G.enhanced[d.id]={count:0,quality:1.0,stacked:[]};
+  }
+}
+// ===== SAVE/LOAD =====
+function saveGame(){
+  if(!G.settings.autoSave) return;
+  const save={money:G.money,xp:G.xp,level:G.level,totalEarned:G.totalEarned,
+    ordersFulfilled:G.ordersFulfilled,drugsCrafted:G.drugsCrafted,
+    inventory:G.inventory,enhanced:G.enhanced,ingredients:G.ingredients,
+    upgrades:G.upgrades,settings:G.settings,orderCounter:G.orderCounter,
+    drugMarket:G.drugMarket,news:G.news,newsTimer:G.newsTimer,
+    newsUnread:G.newsUnread,newsCounter:G.newsCounter,contactFunds:G.contactFunds};
+  try{localStorage.setItem('drugEmpireSave',JSON.stringify(save));}catch(e){}
+}
+function loadGame(){
+  try{
+    const raw=localStorage.getItem('drugEmpireSave');
+    if(!raw) return;
+    const s=JSON.parse(raw);
+    Object.assign(G,s);
+  }catch(e){}
+}
+function migrateEnhanced(){
+  for(const d of DRUGS){
+    if(!G.enhanced[d.id]) G.enhanced[d.id]={count:0,quality:1.0,stacked:[]};
+    else if(!G.enhanced[d.id].stacked) G.enhanced[d.id].stacked=[];
+  }
+}
+// ===== HELPERS =====
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function pick(arr){return arr[rand(0,arr.length-1)];}
+function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+function getDrugPrice(drugId,quality=1.0){
+  const drug=DRUGS.find(d=>d.id===drugId);
+  if(!drug) return 0;
+  const marketMod=G.drugMarket?.[drugId]||1;
+  const bmQuality=getBMVal('quality',0);
+  const bmAll=getBMVal('all',0);
+  const base=drug.basePrice*marketMod*(quality+bmQuality+bmAll);
+  const payoutBonus=1+(G.upgrades.payout||0)*0.1;
+  const spectrumBoost=hasSpecial('spectrumPowder')?0.15:0;
+  const bmPayout=getBMVal('payout',0);
+  return Math.floor(base*(payoutBonus+spectrumBoost+bmPayout+bmAll));
+}
+function refreshContactFunds(contactId){
+  const contact=CONTACTS.find(c=>c.id===contactId);
+  if(!contact) return;
+  const area=AREAS.find(a=>a.id===contact.area);
+  if(!area) return;
+  G.contactFunds[contactId]=rand(area.moneyRange[0],area.moneyRange[1]);
+}
+function initContactFunds(){
+  for(const c of CONTACTS) if(!G.contactFunds[c.id]) refreshContactFunds(c.id);
+}
+function getCraftTime(drugId){
+  if(G._craftOverride!==null) return Math.max(0.1,G._craftOverride);
+  const drug=DRUGS.find(d=>d.id===drugId);
+  if(!drug) return 10;
+  const lvl=G.upgrades.speed||0;
+  const quantumMult=hasSpecial('quantumParticles')?0.8:1;
+  const bmSpeed=getBMVal('craftSpeed',0);
+  const bmAll=getBMVal('all',0);
+  return Math.max(1,Math.round(drug.craftTime*Math.pow(0.88,lvl)*quantumMult*(1-bmSpeed-bmAll)));
+}
+function getStorageUsed(){
+  let total=0;
+  for(const d of DRUGS) total+=G.inventory[d.id];
+  for(const d of DRUGS) total+=G.enhanced[d.id].count;
+  return total;
+}
+function getFreeStorage(){
+  if(G._nofic) return 999999;
+  const bmStorage=getBMVal('storage',0);
+  return G.totalStorage+bmStorage-getStorageUsed();
+}
+function getInventoryCount(drugId){
+  return (G.inventory[drugId]||0)+(G.enhanced[drugId]?.count||0);
+}
+function addXP(amt){
+  if(hasSpecial('cosmicEssence')) amt*=2;
+  const bmXp=getBMVal('xpMult',0);
+  if(bmXp>0) amt=Math.floor(amt*(1+bmXp));
+  G.xp+=amt;
+  while(G.xp>=G.xpForNext){
+    G.xp-=G.xpForNext;
+    G.level++;
+    G.xpForNext=Math.floor(2000*Math.pow(2.5,G.level-1));
+    showToast(`⬆️ Level ${G.level}!`);
+    // milestone rewards
+    if(G.level%10===0){
+      // every 10 levels: unlock + reward 3 new base ingredients
+      const newlyUnlocked=INGREDIENTS.filter(i=>i.minLvl===G.level);
+      if(newlyUnlocked.length>0){
+        for(let i=0;i<3;i++){
+          const ing=pick(newlyUnlocked);
+          G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+1;
+        }
+        showToast(`🎁 Lvl ${G.level}: unlocked ${newlyUnlocked.map(i=>i.name).join(', ')} + 3 free samples!`);
+      }
+    } else if(G.level%5===0){
+      // every 5 levels (non-10): reward 2 special ingredients
+      const unlocked=SPECIAL_INGREDIENTS.filter(s=>G.level>=s.minLvl);
+      const names=[];
+      for(let i=0;i<Math.min(2,unlocked.length);i++){
+        const ing=pick(unlocked);
+        G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+1;
+        names.push(ing.name);
+      }
+      if(names.length>0){
+        const unique=[...new Set(names)];
+        showToast(`🎁 Lvl ${G.level} reward: ${unique.join(', ')}`);
+      }
+    }
+  }
+}
+function showToast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(el._hide);
+  el._hide=setTimeout(()=>el.classList.remove('show'),2500);
+}
+// ===== ORDERS =====
+function getContactNames(){return CONTACTS.map(c=>c.name);}
+function generateOrder(){
+  if(G.orders.length>=20) return;
+  const drug=pick(DRUGS);
+  const qty=rand(1,20);
+  const qualityMult=Math.round((1+(Math.random()*0.5))*10)/10;
+  const priceMult=Math.round((0.8+Math.random()*1.2)*10)/10;
+  const totalPrice=Math.floor(getDrugPrice(drug.id,qualityMult)*qty*priceMult*0.6);
+  const stasisBonus=hasSpecial('stasisFluid')?1.5:1;
+  const timeLimit=Math.round(rand(35,90)*stasisBonus);
+  let avail=getContactNames().filter(n=>!G.usedNames.includes(n));
+  if(avail.length===0){G.usedNames=[];avail=getContactNames();}
+  const name=pick(avail);
+  G.usedNames.push(name);
+  if(G.usedNames.length>30) G.usedNames=G.usedNames.slice(-20);
+  const order={
+    id:++G.orderCounter,
+    name, drugId:drug.id, qty, qualityMult, priceMult,
+    totalPrice, timeLimit, remaining:timeLimit,
+    createdAt:Date.now()
+  };
+  G.orders.push(order);
+  showToast(`📞 New order from ${name}: ${qty}x ${drug.name}`);
+}
+function expireOrders(){
+  G.orders=G.orders.filter(o=>{
+    const alive=(Date.now()-o.createdAt)<o.timeLimit*1000;
+    if(!alive && G.usedNames&&G.usedNames.includes(o.name)){
+      G.usedNames=G.usedNames.filter(n=>n!==o.name);
+    }
+    return alive;
+  });
+}
+function fulfillOrder(orderId){
+  const idx=G.orders.findIndex(o=>o.id===orderId);
+  if(idx===-1) return false;
+  const order=G.orders[idx];
+  const regular=G.inventory[order.drugId]||0;
+  const enh=G.enhanced[order.drugId]?.count||0;
+  const total=regular+enh;
+  if(total<order.qty) return false;
+  let need=order.qty;
+  const fromRegular=Math.min(need,regular);
+  G.inventory[order.drugId]-=fromRegular;
+  need-=fromRegular;
+  if(need>0){
+    G.enhanced[order.drugId].count-=need;
+    need=0;
+  }
+  const cryoMult=(hasSpecial('cryogenicFluid') && G.ordersFulfilled>0 && G.ordersFulfilled%10===0)?3:1;
+  const godMult=G._godmode?10:1;
+  const payout=order.totalPrice*cryoMult*godMult;
+  G.money+=payout;
+  G.totalEarned+=payout;
+  G.ordersFulfilled++;
+  addXP(Math.floor(order.totalPrice*0.08)+5);
+  if(G.usedNames) G.usedNames=G.usedNames.filter(n=>n!==order.name);
+  G.orders.splice(idx,1);
+  showToast(`✅ Order fulfilled! +$${order.totalPrice}`);
+  return true;
+}
+// ===== CRAFTING =====
+function startCraft(drugId,qty,ingredientId){
+  if(G.crafting) return;
+  const drug=DRUGS.find(d=>d.id===drugId);
+  if(!drug) return;
+  const discount=getBMVal('discount',0)+getBMVal('all',0);
+  const cost=Math.floor(drug.baseCost*qty*(1-discount));
+  if(G.money<cost){showToast('❌ Not enough money!');return;}
+  if(qty>getFreeStorage()){showToast('❌ Not enough storage!');return;}
+  // check ingredient
+  let ingEffect=null;
+  if(ingredientId && ingredientId!=='none'){
+    if((G.ingredients[ingredientId]||0)<1){showToast('❌ Don\'t own that ingredient!');return;}
+    G.ingredients[ingredientId]--;
+    ingEffect=INGREDIENTS.find(i=>i.id===ingredientId)||SPECIAL_INGREDIENTS.find(i=>i.id===ingredientId);
+  }
+  G.money-=cost;
+  const totalTime=getCraftTime(drugId)*qty;
+  G.crafting={drugId,qty,remaining:totalTime,total:totalTime,ingredient:ingEffect};
+  showToast(`🔬 Crafting ${qty}x ${drug.name}...`);
+  render();
+}
+function processCrafting(){
+  if(!G.crafting) return;
+  G.crafting.remaining--;
+  if(G.crafting.remaining<=0){
+    finishCraft();
+  }
+  if(['home','mixr','drugs'].includes(G.currentScreen)) updateCraftingUI();
+}
+function finishCraft(){
+  if(!G.crafting) return;
+  const {drugId,qty,ingredient}=G.crafting;
+  G.crafting=null;
+  const drug=DRUGS.find(d=>d.id===drugId);
+  // calculate quality boost
+  let qualityBoost=1.0;
+  let yieldExtra=0;
+  let xpExtra=0;
+  if(ingredient){
+    if(ingredient.passive){
+      const effect=ingredient.effect;
+      if(effect[drugId]) qualityBoost+=effect[drugId];
+      if(effect.all) qualityBoost+=effect.all;
+      if(effect.yield) yieldExtra+=effect.yield;
+    } else if(ingredient.randomEffect){
+      const re=ingredient.randomEffect;
+      const val=Math.round((re.min+Math.random()*(re.max-re.min))*100)/100;
+      switch(re.type){
+        case'quality':qualityBoost+=val;showToast(`🎲 ${ingredient.name}: +${Math.round(val*100)}% quality`);break;
+        case'yield':yieldExtra+=val;showToast(`🎲 ${ingredient.name}: +${Math.round(val*100)}% yield`);break;
+        case'speed':{
+          const saved=Math.floor(G.crafting.total*val);
+          if(saved>0){
+            // already in finishCraft, speed converts to quality boost
+            qualityBoost+=val*0.5;
+            showToast(`🎲 ${ingredient.name}: +${Math.round(val*100)}% speed (→ quality)`);
+          }
+          break;
+        }
+        case'discount':{
+          const refund=Math.floor(drug.baseCost*qty*val);
+          G.money+=refund;
+          showToast(`🎲 ${ingredient.name}: -$${refund} discount`);
+          break;
+        }
+        case'payout':qualityBoost+=val;showToast(`🎲 ${ingredient.name}: +${Math.round(val*100)}% payout`);break;
+        case'xp':xpExtra+=val;showToast(`🎲 ${ingredient.name}: +${Math.round(val*100)}% XP`);break;
+      }
+    }
+  }
+  qualityBoost+=G.upgrades.quality*0.05;
+  if(ingredient){
+    if(!G.enhanced[drugId]) G.enhanced[drugId]={count:0,quality:1.0,stacked:[]};
+    G.enhanced[drugId].count+=qty;
+    G.enhanced[drugId].quality=Math.max(G.enhanced[drugId].quality||1.0,qualityBoost);
+    showToast(`✨ Crafted ${qty}x enhanced ${drug.name}!`);
+  } else {
+    G.inventory[drugId]=(G.inventory[drugId]||0)+qty;
+    showToast(`✅ Crafted ${qty}x ${drug.name}!`);
+  }
+  G.drugsCrafted+=qty;
+  let xpAmt=Math.floor(qty*2);
+  if(xpExtra>0) xpAmt=Math.floor(xpAmt*(1+xpExtra));
+  addXP(xpAmt);
+  // yield bonus
+  if(yieldExtra>0){
+    const extra=Math.max(1,Math.floor(qty*yieldExtra));
+    G.inventory[drugId]=(G.inventory[drugId]||0)+extra;
+    showToast(`📦 +${extra} bonus yield!`);
+  }
+  if(['home','mixr','drugs'].includes(G.currentScreen)) render();
+}
+// ===== AUTO SYSTEMS =====
+function runAutoProduce(){
+  if((G.upgrades.autoProduce||0)<1) return;
+  if(G.crafting) return;
+  // pick a drug we can afford and have space for
+  const affordable=DRUGS.filter(d=>G.money>=d.baseCost && getFreeStorage()>=1);
+  if(affordable.length===0) return;
+  const drug=pick(affordable);
+  const qty=Math.min(5,getFreeStorage());
+  if(qty<1) return;
+  const cost=drug.baseCost*qty;
+  if(G.money<cost) return;
+  G.money-=cost;
+  const totalTime=Math.max(1,getCraftTime(drug.id)*qty);
+  G.crafting={drugId:drug.id,qty,remaining:totalTime,total:totalTime,ingredient:null};
+}
+function runAutoFulfill(){
+  if((G.upgrades.autoFulfill||0)<1) return;
+  if(!G.settings.autoFulfill) return;
+  for(const order of G.orders){
+    const regular=G.inventory[order.drugId]||0;
+    const enh=G.enhanced[order.drugId]?.count||0;
+    if(regular+enh>=order.qty){
+      fulfillOrder(order.id);
+      break;
+    }
+  }
+}
+let autoBuyCooldown=0;
+function runAutoBuy(){
+  if(G.settings.autoBuyIngredient==='none') return;
+  autoBuyCooldown-=1;
+  if(autoBuyCooldown>0) return;
+  const interval=G.settings.autoBuyInterval||15;
+  autoBuyCooldown=interval;
+  const ingId=G.settings.autoBuyIngredient;
+  const qty=G.settings.autoBuyQty||5;
+  if(ingId==='all'){
+    const unlocked=INGREDIENTS.filter(i=>i.minLvl<=G.level);
+    let bought=0;
+    for(const ing of unlocked){
+      if(G.money>=ing.price*qty){
+        G.money-=ing.price*qty;
+        G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+qty;
+        bought++;
+      }
+    }
+    if(bought>0) showToast(`🛒 Auto-bought ${qty}x of ${bought} ingredients`);
+  } else {
+    const ing=INGREDIENTS.find(i=>i.id===ingId);
+    if(!ing) return;
+    if(G.money>=ing.price*qty){
+      G.money-=ing.price*qty;
+      G.ingredients[ingId]=(G.ingredients[ingId]||0)+qty;
+      showToast(`🛒 Auto-bought ${qty}x ${ing.name}`);
+    }
+  }
+}
+// ===== PASSIVES =====
+function hasSpecial(id){return(G.ingredients[id]||0)>0;}
+function processPassives(){
+  // Mysterious Herb: auto-sell 2% of weed each tick
+  if(hasSpecial('mysteriousHerb') && G.inventory.weed>0){
+    const sell=Math.max(1,Math.floor(G.inventory.weed*0.02));
+    G.inventory.weed-=sell;
+    const price=getDrugPrice('weed',1.5);
+    G.money+=Math.floor(price*sell*0.6);
+  }
+  // Growth Hormones: double yield flag (set in finishCraft when used)
+  // Cryogenic Fluid: every 10th order pays 3x (checked in fulfillOrder)
+  // Prismatic Oil: +1 random ingredient every 60s
+  if(hasSpecial('prismaticOil') && G.tickCount%60===0){
+    const unlocked=INGREDIENTS.filter(i=>i.minLvl<=G.level);
+    if(unlocked.length>0){const ing=pick(unlocked);G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+1;}
+  }
+  // Quantum Particles: craft time -20% (checked in getCraftTime)
+  // Spectrum Powder: +15% payout (checked in getDrugPrice)
+  // Stasis Fluid: orders last 50% longer (checked in generateOrder)
+  // Void Concentrate: +1 of each unlocked ingredient every 30s
+  if(hasSpecial('voidConcentrate') && G.tickCount%30===0){
+    for(const ing of INGREDIENTS.filter(i=>i.minLvl<=G.level)){
+      G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+1;
+    }
+  }
+  // Alchemist's Catalyst: auto-craft 1 weed every 30s
+  if(hasSpecial('alchemistCatalyst') && G.tickCount%30===0 && !G.crafting){
+    if(G.money>=20 && getFreeStorage()>=1){
+      G.money-=20;
+      G.crafting={drugId:'weed',qty:1,remaining:Math.max(1,Math.round(5*Math.pow(0.88,G.upgrades.speed||0))),total:Math.max(1,Math.round(5*Math.pow(0.88,G.upgrades.speed||0))),ingredient:null};
+    }
+  }
+  // Cosmic Essence: 2x XP (checked in addXP)
+}
+// ===== TARGETED TICK UPDATES (no full DOM replacement) =====
+function tickUpdate(){
+  const s=G.currentScreen;
+  if(s==='mixr'||s==='drugs') updateCraftingUI();
+  else if(s==='development') updateDevUI();
+  else if(s==='contactsSell') updateSellUI();
+}
+function updateCraftingUI(){
+  const drug=DRUGS.find(d=>d.id===selectedDrug);
+  if(drug){
+    const bmDiscount=getBMVal('discount',0)+getBMVal('all',0);
+    const cost=Math.floor(drug.baseCost*selectedQty*(1-bmDiscount));
+    const time=getCraftTime(drug.id)*selectedQty;
+    const dc=document.getElementById('drugCost');
+    const dt=document.getElementById('drugTime');
+    const ds=document.getElementById('drugStorage');
+    if(dc) dc.textContent='$'+cost.toLocaleString();
+    if(dt) dt.textContent=time+'s';
+    if(ds) ds.textContent=getFreeStorage()+' free';
+  }
+  updateInvCounts();
+  updateCraftingUIProgress();
+}
+function updateCraftingUIProgress(){
+  const overlay=document.getElementById('craftOverlay');
+  if(G.crafting){
+    if(overlay) overlay.style.display='block';
+    const fill=document.getElementById('craftFill');
+    const rem=document.getElementById('craftRemaining');
+    if(fill) fill.style.width=((1-(G.crafting.remaining/G.crafting.total))*100).toFixed(0)+'%';
+    if(rem) rem.textContent=G.crafting.remaining+'s remaining';
+  } else {
+    if(overlay) overlay.style.display='none';
+  }
+}
+function updateInvCounts(){
+  for(const d of DRUGS){
+    const el=document.getElementById('inv_qty_'+d.id);
+    if(el){
+      const norm=G.inventory[d.id]||0;
+      const enh=G.enhanced[d.id];
+      el.textContent=norm+(enh?.count||0);
+    }
+  }
+}
+function updateDevUI(){
+  for(const ug of UPGRADES){
+    const lvl=G.upgrades[ug.id]||0;
+    const endless=ug.maxLvl===Infinity;
+    const maxed=!endless&&lvl>=ug.maxLvl;
+    const cost=maxed?0:Math.floor(ug.baseCost*Math.pow(ug.costMult,lvl));
+    const canBuy=!maxed&&G.money>=cost;
+    const lvlEl=document.getElementById('dev_lvl_'+ug.id);
+    const btnEl=document.getElementById('dev_btn_'+ug.id);
+    if(lvlEl) lvlEl.textContent=maxed?'MAX':endless?'Lvl '+lvl:'Lvl '+lvl+'/'+ug.maxLvl;
+    if(btnEl){
+      btnEl.textContent=maxed?'MAX':'$'+cost.toLocaleString();
+      btnEl.disabled=!canBuy;
+    }
+  }
+}
+function updateSellUI(){
+  const contact=CONTACTS.find(c=>c.id===G.currentContact);
+  if(!contact) return;
+  const area=AREAS.find(a=>a.id===contact.area);
+  const funds=G.contactFunds[contact.id]||0;
+  const selDrug=DRUGS.find(d=>d.id===G.contactSellDrug);
+  const maxInv=getInventoryCount(G.contactSellDrug||contact.desiredDrug);
+  let maxAfford=maxInv;
+  if(G.contactSellDrug){
+    const ppu=getDrugPrice(G.contactSellDrug,1.0);
+    const isDesired=G.contactSellDrug===contact.desiredDrug;
+    const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+    const perUnit=Math.floor(ppu*payMult);
+    if(perUnit>0) maxAfford=Math.min(maxInv,Math.floor(funds/perUnit));
+  }
+  const qty=Math.min(G.contactSellQty||1,Math.max(1,maxAfford));
+  const isDesired=G.contactSellDrug===contact.desiredDrug;
+  const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+  let payout=0;
+  if(G.contactSellDrug){
+    const ppu=getDrugPrice(G.contactSellDrug,1.0);
+    const enhQual=G.enhanced[G.contactSellDrug]?.quality||1.0;
+    const qual=G.enhanced[G.contactSellDrug]?.count>0?enhQual:1.0;
+    payout=Math.floor(ppu*qty*payMult*qual);
+  }
+  const w=document.getElementById('sellWallet');
+  if(w) w.textContent='$'+funds.toLocaleString();
+  const p=document.getElementById('sellPayout');
+  if(p) p.textContent=payout>0?'+$'+payout.toLocaleString():'—';
+  const q=document.getElementById('sellQty');
+  if(q) q.textContent=qty;
+  const inv=getInventoryCount(G.contactSellDrug||contact.desiredDrug);
+  const b=document.getElementById('sellBtn');
+  if(b){
+    const canSell=G.contactSellDrug&&qty>0&&inv>=qty&&funds>0;
+    b.textContent=canSell?'Sell to '+contact.name:!funds?'They\'re broke':!G.contactSellDrug?'Select a drug':'Not enough stock';
+    b.disabled=!canSell;
+  }
+  const i=document.getElementById('sellInv');
+  if(i){
+    const e=G.enhanced[G.contactSellDrug];
+    let txt='📦 In stock: '+inv;
+    if(e?.count>0) txt+=' ✨×'+e.quality.toFixed(2);
+    txt+=' | '+(isDesired?'⭐ Bonus 1.8x':'💵 Base '+area.otherPayMult+'x')+' pay';
+    if(G.drugMarket?.[G.contactSellDrug]) txt+=' | 📊 Market: '+(G.drugMarket[G.contactSellDrug]*100).toFixed(0)+'%';
+    if(e?.stacked?.length>0) txt+=' | 🧪 '+e.stacked.map(s=>{const si=INGREDIENTS.find(i=>i.id===s)||SPECIAL_INGREDIENTS.find(x=>x.id===s);return si?si.name:s;}).join(' + ');
+    i.textContent=txt;
+  }
+}
+// ===== TICK =====
+function tick(){
+  G.tickCount++;
+  expireOrders();
+  processCrafting();
+  runAutoProduce();
+  runAutoFulfill();
+  runAutoBuy();
+  processPassives();
+  processBMEffects();
+  // news timer
+  if(G.newsTimer===undefined) G.newsTimer=rand(5,10);
+  G.newsTimer--;
+  if(G.newsTimer<=0) generateNewsEvent();
+  // backmarket auto-generate every 4-7 ticks
+  if(G.browser&&G.browser.sites&&G.browser.sites.backmarket){
+    const slots=G.browser.sites.backmarket.slots;
+    if(slots&&slots.some(s=>s===null)&&Math.random()<0.18) generateBMUpgrade();
+  }
+  updateDerived();
+  if(G.settings.autoSave && G.tickCount%15===0) saveGame();
+  // update HUD every tick
+  const hM=document.getElementById('hudMoney');
+  const hL=document.getElementById('hudLvl');
+  const hO=document.getElementById('hudOrders');
+  if(hM) hM.textContent=`💰 $${G.money.toLocaleString()}`;
+  if(hL) hL.textContent=`Lvl ${G.level} (${G.xp}/${G.xpForNext})`;
+  if(hO) hO.textContent=`📋 ${G.orders.length}`;
+  // lightweight targeted screen update (no full DOM replacement)
+  if(G.tickCount%3===0) tickUpdate();
+}
+// ===== RENDER =====
+function render(){
+  const content=document.getElementById('content');
+  const screen=G.currentScreen;
+  document.getElementById('hudMoney').textContent=`💰 $${G.money.toLocaleString()}`;
+  document.getElementById('hudLvl').textContent=`Lvl ${G.level} (${G.xp}/${G.xpForNext})`;
+  document.getElementById('hudOrders').textContent=`📋 ${G.orders.length}`;
+  switch(screen){
+    case 'home': renderHome(content); break;
+    case 'contacts': renderContacts(content); break;
+    case 'contactsArea': renderContactsArea(content); break;
+    case 'contactsSell': renderContactSell(content); break;
+    case 'settings': renderSettings(content); break;
+    case 'development': renderDevelopment(content); break;
+    case 'drugs': renderDrugs(content); break;
+    case 'mixr': renderMixr(content); break;
+    case 'browser': renderBrowser(content); break;
+    case 'news': renderNews(content); break;
+  }
+}
+function renderHome(el){
+  el.innerHTML=`
+    <div class="home-grid">
+      <div class="app-icon" onclick="navigate('contacts')">
+        <div class="icon-wrap" style="background:#34c759">📞</div>
+        <span class="label">Contacts</span>
+      </div>
+      <div class="app-icon" onclick="navigate('settings')">
+        <div class="icon-wrap" style="background:#8e8e93">⚙️</div>
+        <span class="label">Settings</span>
+      </div>
+      <div class="app-icon" onclick="navigate('development')">
+        <div class="icon-wrap" style="background:#af52de">🧪</div>
+        <span class="label">Development</span>
+      </div>
+      <div class="app-icon" onclick="navigate('drugs')">
+        <div class="icon-wrap" style="background:#fff;color:#333;border:1px solid #e5e5ea">🌸</div>
+        <span class="label">Drugs.inc</span>
+      </div>
+      <div class="app-icon" onclick="navigate('mixr')">
+        <div class="icon-wrap" style="background:#5ac8fa">🔬</div>
+        <span class="label">Mixr.dev</span>
+      </div>
+      <div class="app-icon" onclick="openTerminal()">
+        <div class="icon-wrap" style="background:#0d0d0d;border:1px solid #333">💻</div>
+        <span class="label">Terminal</span>
+      </div>
+      <div class="app-icon" onclick="navigate('browser')">
+        <div class="icon-wrap" style="background:#fff;border:2px solid #4285f4;color:#4285f4;font-size:22px">🌐</div>
+        <span class="label">Browser</span>
+      </div>
+      <div class="app-icon" onclick="navigate('news')">
+        <div class="icon-wrap" style="background:#ff9500">📰</div>
+        <span class="label">News</span>
+        ${G.newsUnread>0?`<span class="badge">${G.newsUnread}</span>`:''}
+      </div>
+      ${G.rootUnlocked&&G.settings.showRootOnHome?`<div class="app-icon" onclick="openRootTerm()" style="animation:fadeIn .5s">
+        <div class="icon-wrap" style="background:#000;border:1px solid #555;color:#fff">☠️</div>
+        <span class="label" style="color:#999">ROOT</span>
+      </div>`:''}
+    </div>`;
+}
+function navigate(screen){
+  G.currentScreen=screen;
+  render();
+}
+function goHome(){
+  G.currentScreen='home';
+  render();
+}
+// ===== CONTACTS =====
+function renderContacts(el){
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">Contacts</span>
+    </div>
+    <div class="sec-header">Select a district</div>`;
+  for(const a of AREAS){
+    const contacts=CONTACTS.filter(c=>c.area===a.id);
+    const drug=DRUGS.find(d=>d.id===a.mostWanted);
+    html+=`
+      <div class="area-card" onclick="openArea('${a.id}')">
+        <div class="area-icon" style="background:${a.color}">${a.icon}</div>
+        <div class="area-info">
+          <div class="area-name">${a.name}</div>
+          <div class="area-stats">
+            <span>🔥 ${drug?drug.icon:''} ${drug?drug.name:a.mostWanted}</span>
+            <span>💰 ${a.payLabel}/unit</span>
+            <span>${a.desc}</span>
+          </div>
+        </div>
+        <div class="area-count">${contacts.length}</div>
+      </div>`;
+  }
+  el.innerHTML=html;
+}
+function openArea(areaId){
+  G.currentArea=areaId;
+  G.currentContact=null;
+  G.contactSellDrug=null;
+  G.contactSellQty=1;
+  G.currentScreen='contactsArea';
+  render();
+}
+function renderContactsArea(el){
+  const area=AREAS.find(a=>a.id===G.currentArea);
+  if(!area){goHome();return;}
+  const contacts=CONTACTS.filter(c=>c.area===area.id);
+  const drug=DRUGS.find(d=>d.id===area.mostWanted);
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="navigate('contacts')">‹</button>
+      <span class="title">${area.icon} ${area.name}</span>
+      <span style="font-size:12px;color:#8e8e93">${contacts.length}</span>
+    </div>
+    <div style="padding:8px 14px;font-size:12px;color:#8e8e93;display:flex;gap:12px;border-bottom:1px solid #e5e5ea;margin-bottom:6px">
+      <span>🔥 Most wanted: ${drug?drug.icon:''} ${drug?drug.name:area.mostWanted}</span>
+      <span>💰 ~${area.payLabel}/unit</span>
+    </div>`;
+  for(const c of contacts){
+    const d=DRUGS.find(x=>x.id===c.desiredDrug);
+    const isDesired=c.desiredDrug===area.mostWanted;
+    html+=`
+      <div class="contact-item" onclick="openContact(${c.id})">
+        <div class="contact-avatar">${d?d.icon:'👤'}</div>
+        <div class="contact-info">
+          <div class="contact-name">${c.name}</div>
+          <div class="contact-desire">
+            ${d?d.icon:''} Wants: ${d?d.name:c.desiredDrug}
+            ${isDesired?'<span class="bonus">★ hot</span>':''}
+          </div>
+        </div>
+        <span class="contact-arrow">›</span>
+      </div>`;
+  }
+  if(contacts.length===0) html+=`<div class="empty-state"><div class="icon">📭</div><div class="text">No contacts here.</div></div>`;
+  el.innerHTML=html;
+}
+function openContact(contactId){
+  G.currentContact=contactId;
+  const contact=CONTACTS.find(c=>c.id===contactId);
+  if(contact) G.contactSellDrug=contact.desiredDrug;
+  G.contactSellQty=1;
+  G.currentScreen='contactsSell';
+  render();
+}
+function renderContactSell(el){
+  const contact=CONTACTS.find(c=>c.id===G.currentContact);
+  if(!contact){goHome();return;}
+  const area=AREAS.find(a=>a.id===contact.area);
+  const desired=DRUGS.find(d=>d.id===contact.desiredDrug);
+  const selDrug=DRUGS.find(d=>d.id===G.contactSellDrug);
+  const funds=G.contactFunds[contact.id]||0;
+  const maxInv=getInventoryCount(G.contactSellDrug||contact.desiredDrug);
+  let maxAfford=maxInv;
+  if(G.contactSellDrug){
+    const ppu=getDrugPrice(G.contactSellDrug,1.0);
+    const isDesired=G.contactSellDrug===contact.desiredDrug;
+    const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+    const perUnit=Math.floor(ppu*payMult);
+    if(perUnit>0) maxAfford=Math.min(maxInv,Math.floor(funds/perUnit));
+  }
+  const qty=Math.min(G.contactSellQty||1,Math.max(1,maxAfford));
+  const isDesired=G.contactSellDrug===contact.desiredDrug;
+  const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+  let payout=0;
+  if(G.contactSellDrug){
+    const ppu=getDrugPrice(G.contactSellDrug,1.0);
+    const enhQual=G.enhanced[G.contactSellDrug]?.quality||1.0;
+    const qual=G.enhanced[G.contactSellDrug]?.count>0?enhQual:1.0;
+    payout=Math.floor(ppu*qty*payMult*qual);
+  }
+  G.contactSellQty=qty;
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="openArea('${contact.area}')">‹</button>
+      <span class="title">${contact.name}</span>
+    </div>
+    <div class="sell-header">
+      <span class="sell-name">${contact.name}</span>
+      <span class="sell-area-badge">${area.icon} ${area.name}</span>
+    </div>
+    <div class="sell-desire">
+      <span class="star">⭐</span> Wants: ${desired?desired.icon:''} ${desired?desired.name:contact.desiredDrug}
+      ${isDesired?'<span class="bonus">★ Bonus pay!</span>':'<span> — sell them what they want for higher payout</span>'}
+    </div>
+    <div style="padding:0 14px 8px;display:flex;justify-content:space-between;font-size:12px">
+      <span style="color:#8e8e93">💰 ${contact.name}'s wallet: <strong id="sellWallet" style="color:#34c759">$${funds.toLocaleString()}</strong></span>
+      <span style="color:#8e8e93">${maxAfford<maxInv?'🪙 limited by funds':''}</span>
+    </div>
+    <div class="sell-label">Select drug</div>
+    <div class="sell-drugs">
+      ${DRUGS.map(d=>{
+        const isDesiredDrug=d.id===contact.desiredDrug;
+        return `<button class="sell-drug-btn ${G.contactSellDrug===d.id?'active':''} ${isDesiredDrug?'desired':''}" onclick="selectSellDrug('${d.id}')">${d.icon}<br>${d.name}</button>`;
+      }).join('')}
+    </div>
+    <div class="sell-label">Quantity (max ${maxAfford})</div>
+    <div class="sell-qty">
+      <button onclick="adjSellQty(-10)">-10</button>
+      <button onclick="adjSellQty(-1)">-1</button>
+      <span class="sell-qty-value" id="sellQty">${qty}</span>
+      <button onclick="adjSellQty(1)">+1</button>
+      <button onclick="adjSellQty(10)">+10</button>
+      <button onclick="adjSellQty(999)" style="width:auto;padding:0 10px;font-size:11px">MAX</button>
+    </div>
+    <div class="sell-payout">
+      <span class="label">${G.contactSellDrug&&qty>0?'Estimated payout:':'Select a drug to sell'}</span>
+      <span id="sellPayout" class="value ${payout>0?'':'none'}">${payout>0?'+$'+payout.toLocaleString():'—'}</span>
+    </div>`;
+  const inv=getInventoryCount(G.contactSellDrug||contact.desiredDrug);
+  const canSell=G.contactSellDrug && qty>0 && inv>=qty && funds>0;
+  html+=`
+    <div class="sell-btn-wrap">
+      <button class="sell-btn" id="sellBtn" ${canSell?'':`disabled`} onclick="sellToContact(${contact.id})">${canSell?'Sell to '+contact.name:!funds?'They\'re broke':!G.contactSellDrug?'Select a drug':'Not enough stock'}</button>
+    </div>
+    ${G.contactSellDrug?`<div id="sellInv" class="sell-inv">📦 In stock: ${inv}${G.enhanced[G.contactSellDrug]?.count>0?` ✨×${G.enhanced[G.contactSellDrug].quality.toFixed(2)}`:''} | ${isDesired?'⭐ Bonus 1.8x':'💵 Base '+(area.otherPayMult)+'x'} pay | ${G.drugMarket?.[G.contactSellDrug]?`📊 Market: ${(G.drugMarket[G.contactSellDrug]*100).toFixed(0)}%`:''}${G.enhanced[G.contactSellDrug]?.stacked?.length>0?`<br><span style="font-size:10px;color:#ff9500">🧪 ${G.enhanced[G.contactSellDrug].stacked.map(s=>{const si=INGREDIENTS.find(i=>i.id===s)||SPECIAL_INGREDIENTS.find(x=>x.id===s);return si?si.name:s;}).join(' + ')}</span>`:''}</div>`:''}`;
+  el.innerHTML=html;
+}
+function selectSellDrug(drugId){
+  G.contactSellDrug=drugId;
+  G.contactSellQty=1;
+  renderContactSell(document.getElementById('content'));
+}
+function adjSellQty(delta){
+  const contact=CONTACTS.find(c=>c.id===G.currentContact);
+  if(!contact) return;
+  const maxInv=getInventoryCount(G.contactSellDrug||contact.desiredDrug);
+  let maxAfford=maxInv;
+  if(G.contactSellDrug){
+    const area=AREAS.find(a=>a.id===contact.area);
+    const isDesired=G.contactSellDrug===contact.desiredDrug;
+    const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+    const ppu=getDrugPrice(G.contactSellDrug,1.0);
+    const perUnit=Math.floor(ppu*payMult);
+    const funds=G.contactFunds[contact.id]||0;
+    if(perUnit>0) maxAfford=Math.min(maxInv,Math.floor(funds/perUnit));
+  }
+  if(delta===999){G.contactSellQty=maxAfford;}
+  else{G.contactSellQty=Math.max(1,Math.min(maxAfford,(G.contactSellQty||1)+delta));}
+  renderContactSell(document.getElementById('content'));
+}
+function sellToContact(contactId){
+  const contact=CONTACTS.find(c=>c.id===contactId);
+  if(!contact) return false;
+  const drugId=G.contactSellDrug;
+  if(!drugId) return false;
+  const area=AREAS.find(a=>a.id===contact.area);
+  const drug=DRUGS.find(d=>d.id===drugId);
+  let qty=G.contactSellQty||1;
+  const regular=G.inventory[drugId]||0;
+  const enh=G.enhanced[drugId]?.count||0;
+  const total=regular+enh;
+  if(total<qty) return false;
+  const isDesired=drugId===contact.desiredDrug;
+  const payMult=isDesired?area.desiredPayMult:area.otherPayMult;
+  const ppu=getDrugPrice(drugId,1.0);
+  const enhQual=G.enhanced[drugId]?.quality||1.0;
+  const qual=enh>0&&qty<=enh?enhQual:(enh>0?(enhQual*enh+1.0*(qty-enh))/qty:1.0);
+  const payout=Math.floor(ppu*qty*payMult*qual);
+  const funds=G.contactFunds[contact.id]||0;
+  if(funds<=0){showToast(`❌ ${contact.name} has no money left!`);return false;}
+  const actualPayout=Math.min(payout,funds);
+  let need=qty;
+  const fromRegular=Math.min(need,regular);
+  G.inventory[drugId]-=fromRegular;
+  need-=fromRegular;
+  if(need>0){G.enhanced[drugId].count-=need;need=0;}
+  const godMult=G._godmode?10:1;
+  const finalPayout=actualPayout*godMult;
+  G.contactFunds[contact.id]-=actualPayout;
+  G.money+=finalPayout;
+  G.totalEarned+=finalPayout;
+  G.ordersFulfilled++;
+  addXP(Math.floor(finalPayout*0.08)+5);
+  showToast(`💰 Sold ${qty}x ${drug.name} to ${contact.name} for $${finalPayout.toLocaleString()}${actualPayout<payout?' (limited by their wallet)':''}`);
+  G.contactSellQty=1;
+  renderContactSell(document.getElementById('content'));
+  return true;
+}
+// ===== NEWS =====
+function generateNewsEvent(){
+  const drugIds=['weed','cocaine','meth','lsd'];
+  const drug=pick(drugIds);
+  const d=DRUGS.find(x=>x.id===drug);
+  const pct=rand(5,65);
+  const up=Math.random()<0.5;
+  const change=up?pct:-pct;
+  const prevMod=G.drugMarket[drug]||1;
+  let newMod=Math.max(0.3,Math.min(3,prevMod*(1+change/100)));
+  G.drugMarket[drug]=Math.round(newMod*100)/100;
+  const hlUp=['Demand Surges','Prices Spike','Market Booms','Values Climb','Shortage Reported'];
+  const hlDown=['Market Crashes','Prices Plummet','Supply Glut','Values Drop','Oversupply Hits'];
+  const causeUp=['supply chain disruptions','increased demand','limited harvests','new recreational use','export bans'];
+  const causeDown=['mass overproduction','reduced demand','seized shipments','better alternatives','new regulations'];
+  const hlArr=up?hlUp:hlDown;
+  const causeArr=up?causeUp:causeDown;
+  const headline=`${d.icon} ${d.name} ${pick(hlArr)}`;
+  const detail=`${d.name} value has ${up?'increased':'decreased'} by ${pct}% due to ${pick(causeArr)}.`;
+  const regions=AREAS.filter(a=>Math.random()<0.6||a.mostWanted===drug).map(a=>a.name);
+  let secondary=null;
+  if(Math.random()<0.55){
+    const others=drugIds.filter(id=>id!==drug);
+    const sec=pick(others);
+    const secPct=rand(3,15);
+    const secChange=up?-secPct:secPct;
+    const secMod=G.drugMarket[sec]||1;
+    let newSecMod=Math.max(0.3,Math.min(3,secMod*(1+secChange/100)));
+    G.drugMarket[sec]=Math.round(newSecMod*100)/100;
+    secondary={drug:sec,change:secChange};
+  }
+  if(!G.newsCounter) G.newsCounter=0;
+  const article={
+    id:++G.newsCounter,headline,detail,regions,drug,change,
+    secondary,time:Date.now()
+  };
+  G.news.unshift(article);
+  if(G.news.length>30) G.news=G.news.slice(0,30);
+  G.newsUnread=(G.newsUnread||0)+1;
+  G.newsTimer=rand(10,25);
+  // refresh contact funds (4/20 chance each)
+  for(const c of CONTACTS) if(Math.random()<0.2) refreshContactFunds(c.id);
+  showToast(`📰 ${headline}`);
+}
+function renderNews(el){
+  G.newsUnread=0;
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">📰 Market News</span>
+    </div>`;
+  if(G.news.length===0){
+    html+=`<div class="empty-state"><div class="icon">📰</div><div class="text">No news yet.<br>Market reports will appear here.</div></div>`;
+  } else {
+    html+=`<div class="sec-header">Latest Reports</div>`;
+    for(let i=0;i<G.news.length;i++){
+      const a=G.news[i];
+      const secs=Math.floor((Date.now()-a.time)/1000);
+      const ts=secs<60?`${secs}s ago`:secs<3600?`${Math.floor(secs/60)}m ago`:secs<86400?`${Math.floor(secs/3600)}h ago`:`${Math.floor(secs/86400)}d ago`;
+      const isUp=a.change>0;
+      const cls=i===0?'news-breaking':'news-item';
+      html+=`
+        <div class="${cls}">
+          <div class="news-headline"><span class="${isUp?'trend-up':'trend-down'}">${isUp?'▲':'▼'}</span>${a.headline}</div>
+          <div class="news-detail">${a.detail}</div>
+          ${a.regions&&a.regions.length?`<div class="news-region">📍 ${a.regions.map(r=>`<span>${r}</span>`).join('')}</div>`:''}
+          ${a.secondary?`<div class="news-detail" style="margin-top:2px">${a.secondary.change>0?'▲':'▼'} ${DRUGS.find(d=>d.id===a.secondary.drug)?.name||a.secondary.drug} ${a.secondary.change>0?'up':'down'} ${Math.abs(a.secondary.change)}% (market shift)</div>`:''}
+          <div class="news-time">${ts}</div>
+        </div>`;
+    }
+  }
+  el.innerHTML=html;
+}
+// ===== SETTINGS =====
+function renderSettings(el){
+  const s=G.settings;
+  const ingOptions=INGREDIENTS.filter(i=>i.minLvl<=G.level).map(i=>`<option value="${i.id}" ${s.autoBuyIngredient===i.id?'selected':''}>${i.name} ($${i.price})</option>`).join('');
+  el.innerHTML=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">Settings</span>
+    </div>
+    <div class="sec-header">Automation</div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Auto-Fulfill Orders</span>
+        <span class="desc">Automatically complete orders</span>
+        <span style="font-size:10px;color:#ff3b30">Requires Auto-Fulfill upgrade</span>
+      </div>
+      <div class="toggle ${s.autoFulfill && (G.upgrades.autoFulfill||0)>0?'on':''}" onclick="toggleSetting('autoFulfill')"></div>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Auto-Buy Ingredients</span>
+        <span class="desc" id="autoBuyDesc">Buy ${s.autoBuyQty||5}x every ${(s.autoBuyInterval||15)%1===0?((s.autoBuyInterval||15)+'s'):((s.autoBuyInterval||15).toFixed(1)+'s')}</span>
+      </div>
+      <div class="toggle ${s.autoBuyIngredient!=='none'?'on':''}" onclick="toggleAutoBuy()" id="autoBuyToggle"></div>
+    </div>
+    <div id="autoBuyControls" style="display:${s.autoBuyIngredient!=='none'?'block':'none'}">
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Ingredient to Buy</span>
+      </div>
+      <select class="select-auto" onchange="setAutoBuyIng(this.value)">
+        <option value="none">None</option>
+        ${ingOptions}
+        <option value="all" ${s.autoBuyIngredient==='all'?'selected':''}>🌐 All Ingredients</option>
+      </select>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Batch Size</span>
+        <span class="desc">Quantity per purchase</span>
+      </div>
+      <input type="number" min="1" value="${s.autoBuyQty||5}" onchange="adjAutoBuyQty(this.value)" style="width:70px;padding:4px 8px;border-radius:6px;border:1px solid #e5e5ea;background:#fff;font-size:14px;font-weight:600;text-align:center">
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Interval</span>
+        <span class="desc">Seconds between purchases</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px">
+        <input type="number" min="0.1" max="120" step="0.1" value="${s.autoBuyInterval||15}" onchange="adjAutoBuyInterval(this.value)" style="width:70px;padding:4px 8px;border-radius:6px;border:1px solid #e5e5ea;background:#fff;font-size:14px;font-weight:600;text-align:center">
+        <span style="font-size:12px;color:#8e8e93">s</span>
+      </div>
+    </div>
+    </div>
+    <div class="sec-header">Preferences</div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Sound Effects</span>
+      </div>
+      <div class="toggle ${s.soundEnabled?'on':''}" onclick="toggleSetting('soundEnabled')"></div>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Dark Mode</span>
+      </div>
+      <div class="toggle ${s.darkMode?'on':''}" onclick="toggleDark()"></div>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Auto-Save</span>
+        <span class="desc">Save every 15 seconds</span>
+      </div>
+      <div class="toggle ${s.autoSave?'on':''}" onclick="toggleSetting('autoSave')"></div>
+    </div>
+    ${G.rootUnlocked?`
+    <div class="sec-header">ROOT Terminal</div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Show ROOT on Home Screen</span>
+        <span class="desc">Hide icon from home, access only here</span>
+      </div>
+      <div class="toggle ${s.showRootOnHome?'on':''}" onclick="toggleSetting('showRootOnHome');render()"></div>
+    </div>
+    <div class="setting-item" style="cursor:pointer" onclick="openRootTerm()">
+      <div class="left">
+        <span class="label" style="color:#999">☠️ Open ROOT Terminal</span>
+      </div>
+      <span style="color:#007aff;font-size:13px">></span>
+    </div>`:''}
+    <div class="sec-header">Statistics</div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Total Earned</span>
+      </div>
+      <span style="font-weight:600;color:#34c759">$${G.totalEarned.toLocaleString()}</span>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Orders Fulfilled</span>
+      </div>
+      <span style="font-weight:600;color:#007aff">${G.ordersFulfilled}</span>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Drugs Crafted</span>
+      </div>
+      <span style="font-weight:600;color:#af52de">${G.drugsCrafted}</span>
+    </div>
+    <div class="setting-item">
+      <div class="left">
+        <span class="label">Storage Used</span>
+      </div>
+      <span style="font-weight:600;color:#8e8e93">${getStorageUsed()}/${G.totalStorage}</span>
+    </div>
+    <div style="padding:14px;text-align:center">
+      <button onclick="if(confirm('Reset all progress?')){localStorage.removeItem('drugEmpireSave');location.reload();}" style="padding:8px 20px;border-radius:8px;border:1px solid #ff3b30;background:0 0;color:#ff3b30;font-size:12px;font-weight:500;cursor:pointer">Reset Game</button>
+    </div>`;
+}
+function toggleSetting(key){
+  G.settings[key]=!G.settings[key];
+  if(key==='autoFulfill' && (G.upgrades.autoFulfill||0)<1){
+    G.settings.autoFulfill=false;
+    showToast('❌ Buy Auto-Fulfill upgrade first!');
+  }
+  render();
+}
+function toggleAutoBuy(){
+  const ctrl=document.getElementById('autoBuyControls');
+  const tog=document.getElementById('autoBuyToggle');
+  if(G.settings.autoBuyIngredient==='none'){
+    if(G.settings._lastAutoBuyIng) G.settings.autoBuyIngredient=G.settings._lastAutoBuyIng;
+    else {const first=INGREDIENTS.find(i=>i.minLvl<=G.level);G.settings.autoBuyIngredient=first?first.id:'none';}
+    if(ctrl) ctrl.style.display='block';
+    if(tog) tog.classList.add('on');
+  } else {
+    G.settings._lastAutoBuyIng=G.settings.autoBuyIngredient;
+    G.settings.autoBuyIngredient='none';
+    if(ctrl) ctrl.style.display='none';
+    if(tog) tog.classList.remove('on');
+  }
+}
+function setAutoBuyIng(val){
+  G.settings.autoBuyIngredient=val;
+  if(val!=='none') G.settings._lastAutoBuyIng=val;
+}
+function adjAutoBuyQty(val){
+  G.settings.autoBuyQty=Math.max(1,parseInt(val)||1);
+  const d=document.getElementById('autoBuyDesc');
+  if(d) d.textContent=`Buy ${G.settings.autoBuyQty}x every ${(G.settings.autoBuyInterval||15)%1===0?((G.settings.autoBuyInterval||15)+'s'):((G.settings.autoBuyInterval||15).toFixed(1)+'s')}`;
+}
+function adjAutoBuyInterval(val){
+  G.settings.autoBuyInterval=Math.max(0.1,Math.min(120,parseFloat(val)||0.1));
+  const d=document.getElementById('autoBuyDesc');
+  if(d) d.textContent=`Buy ${G.settings.autoBuyQty||5}x every ${(G.settings.autoBuyInterval||15)%1===0?((G.settings.autoBuyInterval||15)+'s'):((G.settings.autoBuyInterval||15).toFixed(1)+'s')}`;
+}
+function toggleDark(){
+  G.settings.darkMode=!G.settings.darkMode;
+  applyDark(G.settings.darkMode);
+  render();
+}
+function applyDark(on){
+  const screen=document.getElementById('screen');
+  if(on) screen.classList.add('dark');
+  else screen.classList.remove('dark');
+}
+// ===== DEVELOPMENT =====
+function renderDevelopment(el){
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">Development</span>
+    </div>`;
+  for(const ug of UPGRADES){
+    const lvl=G.upgrades[ug.id]||0;
+    const endless=ug.maxLvl===Infinity;
+    const maxed=!endless && lvl>=ug.maxLvl;
+    const cost=maxed?0:Math.floor(ug.baseCost*Math.pow(ug.costMult,lvl));
+    const canBuy=!maxed && G.money>=cost;
+    html+=`
+      <div class="upgrade-card">
+        <div class="info">
+          <span class="name">${ug.icon} ${ug.name}</span>
+          <span class="desc">${ug.desc}</span>
+          <span class="level" id="dev_lvl_${ug.id}">${maxed?'MAX':endless?`Lvl ${lvl}`:`Lvl ${lvl}/${ug.maxLvl}`}</span>
+        </div>
+        <button class="btn-buy" id="dev_btn_${ug.id}" ${canBuy?'':`disabled`} onclick="buyUpgrade('${ug.id}')">
+          ${maxed?'MAX':`$${cost.toLocaleString()}`}
+        </button>
+      </div>`;
+  }
+  el.innerHTML=html;
+}
+function buyUpgrade(id){
+  const ug=UPGRADES.find(u=>u.id===id);
+  if(!ug) return;
+  const lvl=G.upgrades[id]||0;
+  if(lvl>=ug.maxLvl) return;
+  const cost=Math.floor(ug.baseCost*Math.pow(ug.costMult,lvl));
+  if(G.money<cost){showToast('❌ Not enough money!');return;}
+  G.money-=cost;
+  G.upgrades[id]=lvl+1;
+  showToast(`⬆️ ${ug.name} upgraded to Lvl ${lvl+1}!`);
+  updateDerived();
+  if(id==='autoProduce' || id==='autoFulfill'){
+    // auto-toggle settings if unlocked
+    if(id==='autoFulfill' && G.settings.autoFulfill) G.settings.autoFulfill=true;
+  }
+  render();
+}
+// ===== DRUGS.INC =====
+let selectedDrug=DRUGS[0].id;
+let selectedQty=5;
+let selectedIngredient='none';
+function renderDrugs(el){
+  const drug=DRUGS.find(d=>d.id===selectedDrug);
+  const bmDiscount=getBMVal('discount',0)+getBMVal('all',0);
+  const cost=drug?Math.floor(drug.baseCost*selectedQty*(1-bmDiscount)):0;
+  const time=drug?getCraftTime(drug.id)*selectedQty:0;
+  const canCraft=!G.crafting && G.money>=cost && selectedQty<=getFreeStorage() && selectedQty>0;
+  const ingOptions=INGREDIENTS.filter(i=>i.minLvl<=G.level).map(i=>{
+    const owned=G.ingredients[i.id]||0;
+    return `<option value="${i.id}" ${selectedIngredient===i.id?'selected':''}>${i.name} (${owned} owned) - $${i.price}</option>`;
+  }).join('') + (SPECIAL_INGREDIENTS.some(s=>(G.ingredients[s.id]||0)>0)?'<option disabled>── Special ──</option>':'') + SPECIAL_INGREDIENTS.filter(s=>(G.ingredients[s.id]||0)>0).map(s=>{
+    const owned=G.ingredients[s.id]||0;
+    return `<option value="${s.id}" ${selectedIngredient===s.id?'selected':''}>⭐ ${s.name} (${owned} owned)</option>`;
+  }).join('');
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">Drugs.inc</span>
+    </div>
+    <div class="drug-section">
+      <div class="drug-select">
+        ${DRUGS.map(d=>`
+          <div class="drug-btn ${selectedDrug===d.id?'active':''}" onclick="selectDrug('${d.id}')">
+            ${d.icon} ${d.name}
+          </div>
+        `).join('')}
+      </div>
+      <div class="drug-controls">
+        <div class="row">
+          <span class="label">Quantity</span>
+          <div class="qty-btns">
+            ${[1,5,10,25,100].map(q=>`
+              <div class="qty-btn ${selectedQty===q?'active':''}" onclick="selectQty(${q})">${q}</div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="row">
+          <span class="label">Cost</span>
+          <span class="value" style="color:#ff3b30" id="drugCost">$${cost.toLocaleString()}</span>
+        </div>
+        <div class="row">
+          <span class="label">Time</span>
+          <span class="value" id="drugTime">${time}s</span>
+        </div>
+        <div class="row">
+          <span class="label">Storage</span>
+          <span class="value" id="drugStorage">${getFreeStorage()} free</span>
+        </div>
+        <div style="margin-top:6px">
+          <span class="label">Enhance (optional)</span>
+          <select class="ing-select" onchange="selectIngredient(this.value)">
+            <option value="none">None</option>
+            ${ingOptions}
+          </select>
+        </div>
+      </div>
+      ${G.crafting?`
+        <div id="craftOverlay" style="background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.08);text-align:center">
+          <div style="font-size:14px;font-weight:500">🔬 Crafting...</div>
+          <div style="font-size:11px;color:#666;margin:4px 0">${G.crafting.qty}x ${DRUGS.find(d=>d.id===G.crafting.drugId)?.name||''}</div>
+          <div class="progress-bar">
+            <div class="fill" id="craftFill" style="width:${((1-(G.crafting.remaining/G.crafting.total))*100).toFixed(0)}%"></div>
+          </div>
+          <div id="craftRemaining" style="font-size:11px;color:#8e8e93;margin-top:4px">${G.crafting.remaining}s remaining</div>
+        </div>
+      `:`
+        <button class="btn-craft" ${canCraft?'':`disabled`} onclick="startCraft('${selectedDrug}',${selectedQty},'${selectedIngredient}')">
+          ${canCraft?'🔬 Craft':'Need more money or space'}
+        </button>`}
+      <div class="sec-header" style="padding-left:0;padding-top:14px">Inventory (${getStorageUsed()}/${G.totalStorage+(getBMVal('storage',0)>0?getBMVal('storage',0):0)})</div>
+      <div class="inv-grid">
+        ${DRUGS.map(d=>{
+          const norm=G.inventory[d.id]||0;
+          const enh=G.enhanced[d.id];
+          return `
+            <div class="inv-item">
+              <div class="qty" id="inv_qty_${d.id}">${norm+(enh?.count||0)}</div>
+              <div class="type">${d.icon} ${d.name}</div>
+              ${enh?.count>0?`<div class="enh">✨ ${enh.count} enhanced</div>`:''}
+            </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  el.innerHTML=html;
+}
+function selectDrug(id){selectedDrug=id;render();}
+function selectQty(q){selectedQty=q;render();}
+function selectIngredient(id){selectedIngredient=id;render();}
+// ===== MIXR.DEV =====
+let mixrTab='ingredients';
+let mixDrug='';
+let mixIng='';
+function renderMixr(el){
+  const hasIngredients=INGREDIENTS.some(i=>(G.ingredients[i.id]||0)>0)||SPECIAL_INGREDIENTS.some(s=>(G.ingredients[s.id]||0)>0);
+  const hasDrugs=DRUGS.some(d=>getInventoryCount(d.id)>0);
+  let html=`
+    <div class="nav-bar">
+      <button class="back" onclick="goHome()">‹</button>
+      <span class="title">Mixr.dev</span>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-btn ${mixrTab==='ingredients'?'active':''}" onclick="switchMixrTab('ingredients')">🧪 Ingredients</div>
+      <div class="tab-btn ${mixrTab==='mix'?'active':''}" onclick="switchMixrTab('mix')">🔀 Mix</div>
+    </div>`;
+  if(mixrTab==='ingredients'){
+    html+=`<div style="padding:6px 14px;font-size:11px;color:#8e8e93">Buy ingredients to enhance your drugs</div>`;
+    for(const ing of INGREDIENTS){
+      const owned=G.ingredients[ing.id]||0;
+      const locked=ing.minLvl>G.level;
+      const canBuy=!locked && G.money>=ing.price;
+      html+=`
+        <div class="ingredient-card" style="${locked?'opacity:.4':''}">
+          <div class="left">
+            <span class="ing-name">${ing.name} ${locked?`<span style="font-size:10px;color:#ff3b30">🔒 lvl ${ing.minLvl}</span>`:''}</span>
+            <span class="ing-desc">${ing.desc}</span>
+            <span class="ing-owned">Owned: ${owned}</span>
+          </div>
+          <div class="right">
+            <span class="ing-price">${locked?'—':`$${ing.price}`}</span>
+            <button class="btn-buy" ${canBuy?'':`disabled`} onclick="buyIngredient('${ing.id}')">${locked?'Locked':'Buy'}</button>
+          </div>
+        </div>`;
+    }
+    // special ingredients section
+    const hasSpecial=SPECIAL_INGREDIENTS.some(s=>(G.ingredients[s.id]||0)>0);
+    if(hasSpecial){
+      html+=`<div style="padding:12px 14px 4px;font-size:11px;color:#ff9500;font-weight:600">⭐ SPECIAL (level rewards)</div>`;
+      for(const s of SPECIAL_INGREDIENTS){
+        const owned=G.ingredients[s.id]||0;
+        if(owned===0) continue;
+        html+=`
+          <div class="ingredient-card" style="border-left:3px solid #ff9500">
+            <div class="left">
+              <span class="ing-name">⭐ ${s.name}</span>
+              <span class="ing-desc">${s.desc}</span>
+              <span class="ing-owned">Owned: ${owned}${G.level<s.minLvl?` (unlocks at lvl ${s.minLvl})`:''}</span>
+            </div>
+            <div class="right">
+              <span style="font-size:10px;color:#ff9500;font-weight:500">REWARD</span>
+            </div>
+          </div>`;
+      }
+    }
+  } else {
+    html+=`<div class="mix-area">
+      <div class="mix-card">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px">🔀 Enhance Drugs</div>
+        <div style="font-size:11px;color:#8e8e93;margin-bottom:10px">Stack ingredients on drugs to boost quality for higher sale prices!</div>
+        ${hasIngredients && hasDrugs?`
+          <select onchange="mixDrug=this.value;render()">
+            <option value="">Select drug...</option>
+            ${DRUGS.filter(d=>getInventoryCount(d.id)>0).map(d=>{
+              const e=G.enhanced[d.id];
+              const q=e?.quality||1;
+              const s=e?.stacked||[];
+              return `<option value="${d.id}" ${mixDrug===d.id?'selected':''}>${d.icon} ${d.name} (${getInventoryCount(d.id)})${e?.count>0?` ✨×${q.toFixed(2)}`:''}</option>`;
+            }).join('')}
+          </select>
+          ${mixDrug&&G.enhanced[mixDrug]?.stacked?.length>0?`<div style="font-size:10px;color:#ff9500;padding:2px 0 4px;text-align:center">🧪 Stacked: ${G.enhanced[mixDrug].stacked.map(s=>{const si=INGREDIENTS.find(i=>i.id===s)||SPECIAL_INGREDIENTS.find(x=>x.id===s);return si?si.name:s;}).join(' + ')} (×${G.enhanced[mixDrug].quality.toFixed(2)})</div>`:''}
+          <select onchange="mixIng=this.value">
+            <option value="">Select ingredient...</option>
+            ${INGREDIENTS.filter(i=>(G.ingredients[i.id]||0)>0).map(i=>`<option value="${i.id}" ${mixIng===i.id?'selected':''}>${i.name} (${G.ingredients[i.id]} owned)</option>`).join('')}
+            ${SPECIAL_INGREDIENTS.filter(s=>(G.ingredients[s.id]||0)>0).length>0?'<option disabled>── Special ──</option>':''}
+            ${SPECIAL_INGREDIENTS.filter(s=>(G.ingredients[s.id]||0)>0).map(s=>`<option value="${s.id}" ${mixIng===s.id?'selected':''}>⭐ ${s.name} (${G.ingredients[s.id]} owned)</option>`).join('')}
+          </select>
+          <button class="btn-mix" onclick="doMix()">🔀 Mix & Stack</button>
+          <div style="font-size:10px;color:#8e8e93;text-align:center;margin-top:4px">Consumes 1 ingredient + 5 units. Quality stacks additively.</div>
+        `:`
+          <div class="empty-state" style="padding:20px">
+            <div class="icon">🔬</div>
+            <div class="text">You need both drugs and ingredients to mix.<br>Buy ingredients and craft drugs first!</div>
+          </div>
+        `}
+      </div>
+    </div>`;
+  }
+  el.innerHTML=html;
+}
+function switchMixrTab(tab){mixrTab=tab;render();}
+function buyIngredient(id){
+  const ing=INGREDIENTS.find(i=>i.id===id);
+  if(!ing) return;
+  if(ing.minLvl>G.level){showToast(`🔒 Unlocked at level ${ing.minLvl}`);return;}
+  if(G.money<ing.price){showToast('❌ Not enough money!');return;}
+  G.money-=ing.price;
+  G.ingredients[id]=(G.ingredients[id]||0)+1;
+  showToast(`✅ Bought ${ing.name}!`);
+  render();
+}
+function doMix(){
+  if(!mixDrug||!mixIng){showToast('❌ Select both drug and ingredient!');return;}
+  const ing=INGREDIENTS.find(i=>i.id===mixIng)||SPECIAL_INGREDIENTS.find(i=>i.id===mixIng);
+  if(!ing||(G.ingredients[mixIng]||0)<1){showToast('❌ Don\'t have that ingredient!');return;}
+  const regular=G.inventory[mixDrug]||0;
+  const enh=G.enhanced[mixDrug];
+  const enhCount=enh?.count||0;
+  if(regular+enhCount<5){showToast('❌ Need at least 5 units to mix!');return;}
+  G.ingredients[mixIng]--;
+  let need=5;
+  const fromEnh=Math.min(need,enhCount);
+  if(enh) enh.count-=fromEnh;
+  need-=fromEnh;
+  if(need>0) G.inventory[mixDrug]-=need;
+  if(!G.enhanced[mixDrug]) G.enhanced[mixDrug]={count:0,quality:1.0,stacked:[]};
+  const e=G.enhanced[mixDrug];
+  let newBoost=0;
+  if(ing.passive){
+    if(ing.effect[mixDrug]) newBoost+=ing.effect[mixDrug];
+    if(ing.effect.all) newBoost+=ing.effect.all;
+  } else if(ing.randomEffect){
+    const re=ing.randomEffect;
+    const val=Math.round((re.min+Math.random()*(re.max-re.min))*100)/100;
+    if(re.type==='quality'||re.type==='payout') newBoost+=val;
+    else newBoost+=val*0.3;
+  }
+  newBoost+=G.upgrades.quality*0.05;
+  const added=newBoost; // added boost from this ingredient (e.g. 0.35 for 35%)
+  if(e.quality<1) e.quality=1;
+  e.quality+=added;
+  e.count+=5;
+  e.stacked.push(mixIng);
+  const drugName=DRUGS.find(d=>d.id===mixDrug)?.name||mixDrug;
+  showToast(`✨ ${ing.name} stacked on ${drugName} (quality ×${e.quality.toFixed(2)})`);
+  render();
+}
+// ===== BACKMARKET UPGRADES POOL =====
+const BM_UPGRADES = [
+  {id:'quickCash',name:'Quick Cash',desc:'+$2/tick for 30s',cost:45,icon:'💵',effect:'moneyPerTick',value:2,duration:30},
+  {id:'speedBoost',name:'Speed Boost',desc:'+6% craft speed for 40s',cost:70,icon:'⚡',effect:'craftSpeed',value:0.06,duration:40},
+  {id:'payoutBoost',name:'Payout Boost',desc:'+10% payout for 30s',cost:100,icon:'📈',effect:'payout',value:0.10,duration:30},
+  {id:'storageUp',name:'Storage Up',desc:'+60 storage for 45s',cost:90,icon:'📦',effect:'storage',value:60,duration:45},
+  {id:'qualityUp',name:'Quality Up',desc:'+12% quality for 30s',cost:80,icon:'⭐',effect:'quality',value:0.12,duration:30},
+  {id:'xpBoost',name:'XP Boost',desc:'+60% XP for 25s',cost:60,icon:'📚',effect:'xpMult',value:0.6,duration:25},
+  {id:'autoTip',name:'Auto Tip',desc:'+$15 every 5s for 40s',cost:130,icon:'🤑',effect:'autoTip',value:15,duration:40},
+  {id:'discount',name:'Craft Discount',desc:'-10% craft cost for 35s',cost:75,icon:'🏷️',effect:'discount',value:0.10,duration:35},
+  {id:'rushOrder',name:'Rush Order',desc:'+1 order instantly',cost:35,icon:'📨',effect:'rushOrder',value:1,duration:0},
+  {id:'chemBoost',name:'Chem Boost',desc:'+8% to all for 20s',cost:110,icon:'🧪',effect:'all',value:0.08,duration:20},
+  {id:'passiveIncome',name:'Passive Income',desc:'+$1/sec for 60s',cost:50,icon:'♻️',effect:'moneyPerTick',value:1,duration:60},
+  {id:'qualityBoost2',name:'Premium Quality',desc:'+20% quality for 20s',cost:95,icon:'💎',effect:'quality',value:0.20,duration:20},
+  {id:'storageUp2',name:'Warehouse',desc:'+100 storage for 30s',cost:120,icon:'🏭',effect:'storage',value:100,duration:30},
+  {id:'xpBoost2',name:'Tutoring',desc:'+100% XP for 15s',cost:85,icon:'🎓',effect:'xpMult',value:1.0,duration:15},
+  {id:'speedBoost2',name:'Turbo',desc:'+15% craft speed for 20s',cost:100,icon:'🔥',effect:'craftSpeed',value:0.15,duration:20},
+];
+function initBackmarket(){
+  const bm=G.browser.sites.backmarket;
+  if(bm.slots.length===0) bm.slots=Array(10).fill(null);
+}
+function generateBMUpgrade(){
+  initBackmarket();
+  const bm=G.browser.sites.backmarket;
+  const empty=bm.slots.findIndex(s=>s===null);
+  if(empty===-1) return;
+  const usedIds=bm.slots.filter(s=>s!==null).map(s=>s.id);
+  const pool=BM_UPGRADES.filter(u=>!usedIds.includes(u.id));
+  if(pool.length===0) return;
+  const ug={...pool[Math.floor(Math.random()*pool.length)]};
+  ug.slotIndex=empty;
+  ug.isBought=false;
+  ug.ticksLeft=0;
+  bm.slots[empty]=ug;
+}
+function buyBMUpgrade(slotIdx){
+  initBackmarket();
+  const bm=G.browser.sites.backmarket;
+  const slot=bm.slots[slotIdx];
+  if(!slot||slot.isBought) return;
+  if(G.money<slot.cost){showToast('❌ Not enough money!');renderBrowser(document.getElementById('content'));return;}
+  G.money-=slot.cost;
+  slot.isBought=true;
+  slot.ticksLeft=slot.duration;
+  // apply instant effects
+  if(slot.effect==='rushOrder'){for(let i=0;i<slot.value;i++)generateOrder();}
+  showToast(`✅ ${slot.name} active!`);
+  renderBrowser(document.getElementById('content'));
+}
+function refreshBackmarket(){
+  initBackmarket();
+  const bm=G.browser.sites.backmarket;
+  const hasBought=bm.slots.some(s=>s!==null&&s.isBought);
+  // if any are bought, don't allow refresh (can't clear active effects)
+  if(hasBought){showToast('❌ Wait for active upgrades to expire');return;}
+  const slots=bm.slots;
+  // refund half cost for pending but not full
+  for(let i=0;i<slots.length;i++){
+    if(slots[i]&&!slots[i].isBought) G.money+=Math.floor(slots[i].cost*0.5);
+  }
+  bm.slots=Array(10).fill(null);
+  showToast('🔄 Market refreshed!');
+  // generate 2-3 new immediately
+  const n=2+Math.floor(Math.random()*2);
+  for(let i=0;i<n;i++) generateBMUpgrade();
+  renderBrowser(document.getElementById('content'));
+}
+function processBMEffects(){
+  const bm=G.browser.sites.backmarket;
+  if(!bm||!bm.slots) return;
+  let changed=false;
+  for(const slot of bm.slots){
+    if(!slot||!slot.isBought) continue;
+    if(slot.ticksLeft>0){
+      slot.ticksLeft--;
+      changed=true;
+      // apply per-tick effects
+      if(slot.effect==='moneyPerTick') G.money+=slot.value;
+      if(slot.effect==='autoTip'&&G.tickCount%5===0) G.money+=slot.value;
+    }
+    if(slot.ticksLeft===0&&slot.isBought){
+      // expire
+      slot.isBought=false;
+      bm.slots[bm.slots.indexOf(slot)]=null;
+      changed=true;
+    }
+  }
+  if(changed){
+    const hM=document.getElementById('hudMoney');
+    if(hM) hM.textContent=`💰 $${G.money.toLocaleString()}`;
+  }
+}
+function getBMVal(effectId,fallback=0){
+  if(!G.browser||!G.browser.sites||!G.browser.sites.backmarket||!G.browser.sites.backmarket.slots) return fallback;
+  let total=0;
+  for(const s of G.browser.sites.backmarket.slots){
+    if(s&&s.isBought&&s.ticksLeft>0){
+      if(s.effect===effectId) total+=s.value;
+      if(s.effect==='all') total+=s.value;
+    }
+  }
+  return total||fallback;
+}
+// ===== RENDER BROWSER =====
+let brAddr='backmarket.app';
+function renderBrowser(el){
+  el.innerHTML=`
+    <div id="browser">
+      <div class="br-tab-bar">
+        <div class="br-tab active">
+          <span>🌐</span>
+          <span style="flex:1;overflow:hidden;text-overflow:ellipsis">${G.browser.currentSite||'backmarket.app'}</span>
+          <button class="close" onclick="goHome()">✕</button>
+        </div>
+      </div>
+      <div class="br-nav">
+        <span class="lock">🔒</span>
+        <div class="br-addr"><input type="text" id="brUrl" value="https://${brAddr}" onkeydown="if(event.key==='Enter')navigateBrowser()"></div>
+      </div>
+      <div class="br-bookmarks">
+        <div class="br-bookmark" onclick="goToSite('backmarket')">
+          <div class="bm-icon" style="background:#ff9500;color:#fff">🛒</div>
+          <span class="bm-label">Backmarket</span>
+        </div>
+      </div>
+      <div class="br-content" id="brContent">${G.browser.currentSite==='backmarket'?renderBackmarket():renderBrowserHome()}</div>
+    </div>`;
+}
+function renderBrowserHome(){
+  return `<div style="text-align:center;padding:40px 20px;color:#888;font-size:14px">🌐<br><br>Select a bookmark above</div>`;
+}
+function goToSite(site){
+  G.browser.currentSite=site;
+  brAddr=site+'.app';
+  if(site==='backmarket') initBackmarket();
+  renderBrowser(document.getElementById('content'));
+}
+function navigateBrowser(){
+  const inp=document.getElementById('brUrl');
+  if(!inp) return;
+  const val=inp.value.trim().toLowerCase();
+  if(val.includes('backmarket')) goToSite('backmarket');
+  else showToast('❌ Unknown site: '+val);
+}
+function renderBackmarket(){
+  initBackmarket();
+  const bm=G.browser.sites.backmarket;
+  const hasBought=bm.slots.some(s=>s!==null&&s.isBought);
+  const allFilled=bm.slots.every(s=>s!==null);
+  let html=`
+    <div class="bm-header">
+      <h2>🛒 Backmarket</h2>
+      <div class="tagline">Temporary booster marketplace</div>
+    </div>
+    <div class="bm-actions">
+      <button class="bm-btn-refresh" onclick="refreshBackmarket()" ${hasBought?'disabled':''}>🔄 Refresh</button>
+    </div>
+    <div class="bm-grid">`;
+  for(let i=0;i<10;i++){
+    const s=bm.slots[i];
+    if(!s){
+      html+=`<div class="bm-slot empty">⬜<br><span style="font-size:8px">empty</span></div>`;
+    } else if(s.isBought){
+      const pct=s.duration>0?Math.round((s.ticksLeft/s.duration)*100):0;
+      html+=`<div class="bm-slot" style="border-color:#34c759">
+        <div class="icon">${s.icon}</div>
+        <div class="name">${s.name}</div>
+        <div style="font-size:8px;color:#34c759">✅ ${s.ticksLeft}s left</div>
+        <div class="timer-bar"><div class="fill" style="width:${pct}%"></div></div>
+      </div>`;
+    } else {
+      html+=`<div class="bm-slot">
+        <div class="icon">${s.icon}</div>
+        <div class="name">${s.name}</div>
+        <div class="desc">${s.desc}</div>
+        <div class="cost">$${s.cost}</div>
+        <button class="btn-buy" onclick="buyBMUpgrade(${i})">Buy</button>
+      </div>`;
+    }
+  }
+  html+=`</div>`;
+  if(allFilled) html+=`<div style="text-align:center;padding:12px;font-size:11px;color:#ff9500">Market full! Hit Refresh for new deals</div>`;
+  return html;
+}
+let rootKeys='';
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT') return;
+  rootKeys+=e.key;
+  if(rootKeys.length>5) rootKeys=rootKeys.slice(-5);
+  if(rootKeys.toLowerCase()==='root/'&&!G.rootUnlocked){
+    G.rootUnlocked=true;
+    showToast('💀 ROOT terminal unlocked!');
+    render();
+  }
+});
+// ===== ROOT TERMINAL =====
+let rootTab='terminal';
+let rootHistory=[];
+function openRootTerm(){
+  const t=document.getElementById('rootTerm');
+  t.style.display='block';
+  G.rootTerminalOpen=true;
+  setTimeout(()=>{
+    const inp=document.getElementById('rtInput');
+    if(inp) inp.focus();
+  },50);
+  if(!document.getElementById('rtOutput').children.length){
+    rPrint('ROOT TERMINAL TOGGLED','');
+    rPrint('// Type "help" for commands','');
+  }
+}
+function closeRootTerm(){
+  document.getElementById('rootTerm').style.display='none';
+  G.rootTerminalOpen=false;
+}
+function switchRTab(tab){
+  rootTab=tab;
+  const t=document.querySelectorAll('.rt-tab');
+  t[0].className='rt-tab'+(tab==='terminal'?' active':'');
+  t[1].className='rt-tab'+(tab==='inspect'?' active':'');
+  document.getElementById('rtOutput').style.display=tab==='terminal'?'flex':'none';
+  document.getElementById('rtInputRow').style.display=tab==='terminal'?'flex':'none';
+  document.getElementById('rtInspect').style.display=tab==='inspect'?'block':'none';
+  if(tab==='inspect') renderInspect();
+}
+function rPrint(msg,cls=''){
+  const out=document.getElementById('rtOutput');
+  const line=document.createElement('span');
+  line.className='line'+(cls?' '+cls:'');
+  line.textContent=msg;
+  out.appendChild(line);
+  out.scrollTop=out.scrollHeight;
+}
+function renderInspect(){
+  const el=document.getElementById('rtInspect');
+  const vars=[
+    {k:'money',v:G.money},
+    {k:'level',v:G.level},
+    {k:'xp',v:G.xp},
+    {k:'xpForNext',v:G.xpForNext},
+    {k:'totalEarned',v:G.totalEarned},
+    {k:'ordersFulfilled',v:G.ordersFulfilled},
+    {k:'drugsCrafted',v:G.drugsCrafted},
+    {k:'totalStorage',v:G.totalStorage},
+    {k:'storageUsed',v:getStorageUsed()},
+    {k:'orderCount',v:G.orders.length},
+    {k:'inventoryWeed',v:G.inventory.weed||0},
+    {k:'inventoryCocaine',v:G.inventory.cocaine||0},
+    {k:'inventoryMeth',v:G.inventory.meth||0},
+    {k:'inventoryLSD',v:G.inventory.lsd||0},
+    {k:'enhancedWeed',v:G.enhanced.weed?.count||0},
+    {k:'enhancedCocaine',v:G.enhanced.cocaine?.count||0},
+    {k:'enhancedMeth',v:G.enhanced.meth?.count||0},
+    {k:'enhancedLSD',v:G.enhanced.lsd?.count||0},
+    {k:'upgradeSpeed',v:G.upgrades.speed||0},
+    {k:'upgradeQuality',v:G.upgrades.quality||0},
+    {k:'upgradePayout',v:G.upgrades.payout||0},
+    {k:'upgradeInventory',v:G.upgrades.inventory||0},
+    {k:'autoProduce',v:G.upgrades.autoProduce||0},
+    {k:'autoFulfill',v:G.upgrades.autoFulfill||0},
+    {k:'rootUnlocked',v:G.rootUnlocked},
+  ];
+  let html=`
+    <div class="insp-edit">
+      <input type="text" id="inspInput" placeholder="key=value  e.g.  money=99999" onkeydown="if(event.key==='Enter')applyInsp()">
+      <button onclick="applyInsp()">SET</button>
+    </div>`;
+  for(const v of vars){
+    html+=`<div class="insp-row" onclick="fillInsp('${v.k}')"><span class="insp-key">${v.k}</span><span class="insp-val">${typeof v.v==='number'?v.v.toLocaleString():v.v}</span></div>`;
+  }
+  el.innerHTML=html;
+}
+function fillInsp(k){
+  const inp=document.getElementById('inspInput');
+  if(inp) inp.value=k+'=';
+}
+function applyInsp(){
+  const inp=document.getElementById('inspInput');
+  if(!inp||!inp.value.trim()) return;
+  const parts=inp.value.split('=');
+  if(parts.length<2){rPrint('  Usage: key=value','err');return;}
+  const key=parts[0].trim();
+  const val=parts.slice(1).join('=').trim();
+  const num=parseFloat(val);
+  const isNum=!isNaN(num)&&val.trim()!=='';
+  switch(key){
+    case'money':G.money=isNum?Math.max(0,num):G.money;break;
+    case'level':if(isNum&&num>=1){G.level=Math.floor(num);G.xp=0;updateDerived();}break;
+    case'xp':if(isNum){G.xp=Math.max(0,num);updateDerived();}break;
+    case'totalEarned':if(isNum)G.totalEarned=Math.max(0,num);break;
+    case'ordersFulfilled':if(isNum)G.ordersFulfilled=Math.max(0,num);break;
+    case'drugsCrafted':if(isNum)G.drugsCrafted=Math.max(0,num);break;
+    case'storage':if(isNum)G.totalStorage=Math.max(50,num);break;
+    case'inventoryWeed':if(isNum)G.inventory.weed=Math.max(0,Math.floor(num));break;
+    case'inventoryCocaine':if(isNum)G.inventory.cocaine=Math.max(0,Math.floor(num));break;
+    case'inventoryMeth':if(isNum)G.inventory.meth=Math.max(0,Math.floor(num));break;
+    case'inventoryLSD':if(isNum)G.inventory.lsd=Math.max(0,Math.floor(num));break;
+    case'enhancedWeed':if(isNum){if(!G.enhanced.weed)G.enhanced.weed={count:0,quality:1.0,stacked:[]};G.enhanced.weed.count=Math.max(0,Math.floor(num));}break;
+    case'enhancedCocaine':if(isNum){if(!G.enhanced.cocaine)G.enhanced.cocaine={count:0,quality:1.0,stacked:[]};G.enhanced.cocaine.count=Math.max(0,Math.floor(num));}break;
+    case'enhancedMeth':if(isNum){if(!G.enhanced.meth)G.enhanced.meth={count:0,quality:1.0,stacked:[]};G.enhanced.meth.count=Math.max(0,Math.floor(num));}break;
+    case'enhancedLSD':if(isNum){if(!G.enhanced.lsd)G.enhanced.lsd={count:0,quality:1.0,stacked:[]};G.enhanced.lsd.count=Math.max(0,Math.floor(num));}break;
+    case'upgradeSpeed':if(isNum){G.upgrades.speed=Math.max(0,Math.floor(num));updateDerived();}break;
+    case'upgradeQuality':if(isNum){G.upgrades.quality=Math.max(0,Math.floor(num));updateDerived();}break;
+    case'upgradePayout':if(isNum){G.upgrades.payout=Math.max(0,Math.floor(num));}break;
+    case'upgradeInventory':if(isNum){G.upgrades.inventory=Math.max(0,Math.floor(num));updateDerived();}break;
+    default:rPrint(`  Unknown key: ${key}`,'err');renderInspect();render();return;
+  }
+  rPrint(`  ${key} = ${isNum?num:val}`,'ok');
+  renderInspect();
+  render();
+  inp.value='';
+}
+function processRCmd(){
+  const input=document.getElementById('rtInput');
+  const cmd=input.value.trim();
+  input.value='';
+  if(!cmd) return;
+  rPrint('# '+cmd,'cmd');
+  const parts=cmd.split(/\s+/);
+  const c=parts[0].toLowerCase();
+  const args=parts.slice(1);
+  switch(c){
+    case'help':{
+      const cmds=[
+        ['help','Show this list'],
+        ['clear','Clear terminal'],
+        ['money <n>','Set money'],
+        ['xp <n>','Set XP'],
+        ['level <n>','Set level'],
+        ['additem <drug/all> <qty>','Add drugs to inventory'],
+        ['adding <id/all> <qty>','Add base ingredients'],
+        ['addspecial <id/all> <qty>','Add special ingredients'],
+        ['giveall','Give 10 of every special ingredient'],
+        ['maxupgrades','Max all endless upgrades to 50'],
+        ['unlockall','Unlock all tier ingredients'],
+        ['craft <drug> <qty>','Instantly craft drugs'],
+        ['fulfill','Fulfill 1 random order'],
+        ['order <drug> <qty>','Generate custom order'],
+        ['bounty','Spawn 5 high-value orders'],
+        ['fill','Fill 80% storage with random drugs'],
+        ['wipe','Complete factory reset'],
+        ['export','Export game JSON'],
+        ['import <json>','Import game JSON'],
+        ['speed <n>','Set speed upgrade level'],
+        ['quality <n>','Set quality upgrade level'],
+        ['payout <n>','Set payout upgrade level'],
+        ['invsize <n>','Set inventory upgrade level'],
+        ['storage <n>','Set max storage'],
+        ['godmode','Toggle 10x payout mode'],
+        ['nofic','Toggle no storage limit'],
+        ['timewarp <n>','Fast-forward n ticks'],
+        ['storm','Spawn 20 random orders'],
+        ['ingredients <n>','Give n of each unlocked base'],
+        ['autocomplete','Complete ALL active orders'],
+        ['/crsp <n>','Override craft time to n seconds'],
+        ['/crsp reset','Reset craft time to normal'],
+      ];
+      for(const[cmd,desc]of cmds){rPrint(`  ${cmd}`,'');rPrint(`    └ ${desc}`,'');}
+      break;
+    }
+    case'clear':document.getElementById('rtOutput').innerHTML='';break;
+    case'money':{const n=parseInt(args[0]);if(!isNaN(n)){G.money=Math.max(0,n);rPrint(`  money = ${G.money}`,'ok');render();}else rPrint('  Usage: money <amount>','err');break;}
+    case'xp':{const n=parseInt(args[0]);if(!isNaN(n)){G.xp=Math.max(0,n);updateDerived();rPrint(`  xp = ${G.xp}`,'ok');render();}else rPrint('  Usage: xp <amount>','err');break;}
+    case'level':{const n=parseInt(args[0]);if(!isNaN(n)&&n>=1){G.level=n;G.xp=0;updateDerived();rPrint(`  level = ${G.level}`,'ok');render();}else rPrint('  Usage: level <number>','err');break;}
+    case'additem':{
+      const drugId=args[0]?.toLowerCase();const qty=parseInt(args[1])||1;
+      if(drugId==='all'){for(const d of DRUGS){G.inventory[d.id]=(G.inventory[d.id]||0)+qty;}rPrint(`  Added ${qty}x of each drug`,'ok');}
+      else{const d=DRUGS.find(x=>x.id===drugId);if(!d){rPrint('  Drugs: weed, cocaine, meth, lsd, all','err');break;}G.inventory[d.id]=(G.inventory[d.id]||0)+qty;rPrint(`  Added ${qty}x ${d.name}`,'ok');}
+      render();break;
+    }
+    case'adding':{
+      const ingId=args[0]?.toLowerCase();const qty=parseInt(args[1])||1;
+      if(ingId==='all'){for(const ing of INGREDIENTS){G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+qty;}rPrint(`  Added ${qty}x of each base ingredient`,'ok');}
+      else{const ing=INGREDIENTS.find(x=>x.id===ingId);if(!ing){rPrint('  Use a valid ingredient id or "all"','err');break;}G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+qty;rPrint(`  Added ${qty}x ${ing.name}`,'ok');}
+      render();break;
+    }
+    case'addspecial':{
+      const spId=args[0]?.toLowerCase();const qty=parseInt(args[1])||1;
+      if(spId==='all'){for(const s of SPECIAL_INGREDIENTS){G.ingredients[s.id]=(G.ingredients[s.id]||0)+qty;}rPrint(`  Added ${qty}x of each special ingredient`,'ok');}
+      else{const s=SPECIAL_INGREDIENTS.find(x=>x.id===spId);if(!s){rPrint('  Use a valid special id or "all"','err');break;}G.ingredients[s.id]=(G.ingredients[s.id]||0)+qty;rPrint(`  Added ${qty}x ${s.name}`,'ok');}
+      render();break;
+    }
+    case'giveall':{for(const s of SPECIAL_INGREDIENTS){G.ingredients[s.id]=(G.ingredients[s.id]||0)+10;}rPrint('  Gave 10 of every special ingredient','ok');render();break;}
+    case'maxupgrades':{for(const ug of UPGRADES){if(ug.maxLvl===Infinity)G.upgrades[ug.id]=50;else G.upgrades[ug.id]=ug.maxLvl;}updateDerived();rPrint('  Upgrades maxed to 50','ok');render();break;}
+    case'unlockall':{for(const ing of INGREDIENTS)if(ing.minLvl>G.level)G.level=Math.max(G.level,ing.minLvl);rPrint('  All tier ingredients unlocked','ok');render();break;}
+    case'craft':{
+      const drugId=args[0]?.toLowerCase();const qty=parseInt(args[1])||1;const d=DRUGS.find(x=>x.id===drugId);
+      if(!d){rPrint('  Drugs: weed, cocaine, meth, lsd','err');break;}
+      const cost=d.baseCost*qty;if(G.money<cost){rPrint('  Not enough money','err');break;}
+      G.money-=cost;G.inventory[d.id]=(G.inventory[d.id]||0)+qty;G.drugsCrafted+=qty;addXP(Math.floor(qty*2));
+      rPrint(`  Crafted ${qty}x ${d.name} instantly`,'ok');render();break;
+    }
+    case'fulfill':{
+      if(G.orders.length===0){rPrint('  No orders to fulfill','err');break;}
+      const idx=rand(0,G.orders.length-1);fulfillOrder(G.orders[idx].id);rPrint('  Fulfilled 1 random order','ok');break;
+    }
+    case'order':{
+      const drugId=args[0]?.toLowerCase();const qty=parseInt(args[1])||5;const d=DRUGS.find(x=>x.id===drugId);
+      if(!d){rPrint('  Drugs: weed, cocaine, meth, lsd','err');break;}
+      const order={id:++G.orderCounter,name:pick(getContactNames().filter(n=>!G.usedNames.includes(n))),drugId:d.id,qty,qualityMult:1.5,priceMult:1.5,totalPrice:Math.floor(getDrugPrice(d.id,1.5)*qty*1.5*0.6),timeLimit:120,remaining:120,createdAt:Date.now()};
+      G.orders.push(order);rPrint(`  Order created: ${qty}x ${d.name}`,'ok');render();break;
+    }
+    case'bounty':{
+      for(let i=0;i<5;i++){const d=pick(DRUGS);const qty=rand(10,50);const order={id:++G.orderCounter,name:pick(getContactNames().filter(n=>!G.usedNames.includes(n))),drugId:d.id,qty,qualityMult:2.0,priceMult:2.5,totalPrice:Math.floor(getDrugPrice(d.id,2.0)*qty*2.5*0.6),timeLimit:180,remaining:180,createdAt:Date.now()};G.orders.push(order);}
+      rPrint('  5 high-value bounties spawned!','ok');render();break;
+    }
+    case'fill':{
+      for(const d of DRUGS){const space=Math.floor(G.totalStorage*0.8)-getStorageUsed();if(space<=0)break;const add=Math.min(rand(10,50),space,getFreeStorage());if(add>0)G.inventory[d.id]=(G.inventory[d.id]||0)+add;}
+      rPrint('  Storage filled to ~80%','ok');render();break;
+    }
+    case'wipe':{
+      rPrint('  Are you sure? Type "wipe --force" to confirm','err');
+      if(args[0]==='--force'){
+        G.money=500;G.xp=0;G.level=1;G.totalEarned=0;G.ordersFulfilled=0;G.drugsCrafted=0;
+        G.inventory={weed:0,cocaine:0,meth:0,lsd:0};G.enhanced={};G.ingredients={};G.upgrades={};
+        G.orders=[];G.usedNames=[];G.crafting=null;G.orderCounter=0;G.tickCount=0;G.currentArea=null;G.currentContact=null;G.contactSellDrug=null;G.contactSellQty=1;G.drugMarket={weed:1,cocaine:1,meth:1,lsd:1};G.news=[];G.newsTimer=0;G.newsUnread=0;G.newsCounter=0;G.contactFunds={};initContactFunds();
+        for(const d of DRUGS)G.enhanced[d.id]={count:0,quality:1.0,stacked:[]};
+        for(const ing of[...INGREDIENTS,...SPECIAL_INGREDIENTS])G.ingredients[ing.id]=0;
+        for(const ug of UPGRADES)G.upgrades[ug.id]=0;
+        G.settings.autoFulfill=false;G.settings.autoBuyIngredient='none';G.settings.autoBuyQty=5;G.settings.autoBuyInterval=15;
+        localStorage.removeItem('drugEmpireSave');updateDerived();render();
+        rPrint('  Factory reset complete','ok');
+      }
+      break;
+    }
+    case'export':{
+      const exp={money:G.money,xp:G.xp,level:G.level,totalEarned:G.totalEarned,ordersFulfilled:G.ordersFulfilled,drugsCrafted:G.drugsCrafted,inventory:G.inventory,enhanced:G.enhanced,ingredients:G.ingredients,upgrades:G.upgrades,settings:G.settings,orderCounter:G.orderCounter};
+      rPrint('  Copy JSON below:','');rPrint(JSON.stringify(exp),'');break;
+    }
+    case'import':{
+      const raw=args.join(' ');if(!raw){rPrint('  Usage: import <json>','err');break;}
+      try{const data=JSON.parse(raw);if(data.money!==undefined)G.money=data.money;if(data.xp!==undefined)G.xp=data.xp;if(data.level!==undefined)G.level=data.level;if(data.totalEarned!==undefined)G.totalEarned=data.totalEarned;if(data.ordersFulfilled!==undefined)G.ordersFulfilled=data.ordersFulfilled;if(data.drugsCrafted!==undefined)G.drugsCrafted=data.drugsCrafted;if(data.inventory)G.inventory=data.inventory;if(data.enhanced)G.enhanced=data.enhanced;if(data.ingredients)G.ingredients=data.ingredients;if(data.upgrades)G.upgrades=data.upgrades;if(data.settings)Object.assign(G.settings,data.settings);if(data.orderCounter)G.orderCounter=data.orderCounter;updateDerived();render();rPrint('  Import successful','ok');}catch(e){rPrint('  Invalid JSON: '+e.message,'err');}
+      break;
+    }
+    case'speed':{const n=parseInt(args[0]);if(!isNaN(n)){G.upgrades.speed=Math.max(0,n);updateDerived();rPrint(`  speed upgrade = ${G.upgrades.speed}`,'ok');render();}else rPrint('  Usage: speed <n>','err');break;}
+    case'quality':{const n=parseInt(args[0]);if(!isNaN(n)){G.upgrades.quality=Math.max(0,n);updateDerived();rPrint(`  quality upgrade = ${G.upgrades.quality}`,'ok');render();}else rPrint('  Usage: quality <n>','err');break;}
+    case'payout':{const n=parseInt(args[0]);if(!isNaN(n)){G.upgrades.payout=Math.max(0,n);rPrint(`  payout upgrade = ${G.upgrades.payout}`,'ok');render();}else rPrint('  Usage: payout <n>','err');break;}
+    case'invsize':{const n=parseInt(args[0]);if(!isNaN(n)){G.upgrades.inventory=Math.max(0,n);updateDerived();rPrint(`  inventory upgrade = ${G.upgrades.inventory}`,'ok');render();}else rPrint('  Usage: invsize <n>','err');break;}
+    case'storage':{const n=parseInt(args[0]);if(!isNaN(n)){G.totalStorage=Math.max(2000,n);rPrint(`  max storage = ${G.totalStorage}`,'ok');render();}else rPrint('  Usage: storage <n>','err');break;}
+    case'godmode':{
+      if(!G._godmode){G._godmode=true;rPrint('  GODMODE: 10x payout activated','ok');}else{G._godmode=false;rPrint('  GODMODE deactivated','ok');}
+      break;
+    }
+    case'nofic':{
+      if(!G._nofic){G._nofic=true;rPrint('  NOFIC: storage limit disabled','ok');}else{G._nofic=false;rPrint('  NOFIC deactivated','ok');}
+      break;
+    }
+    case'timewarp':{
+      const n=parseInt(args[0])||10;
+      for(let i=0;i<n;i++)tick();
+      rPrint(`  Fast-forwarded ${n} ticks`,'ok');render();break;
+    }
+    case'storm':{
+      for(let i=0;i<20&&G.orders.length<20;i++)generateOrder();
+      rPrint('  20 orders spawned!','ok');render();break;
+    }
+    case'ingredients':{
+      const n=parseInt(args[0])||5;
+      for(const ing of INGREDIENTS.filter(i=>i.minLvl<=G.level))G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+n;
+      rPrint(`  Gave ${n}x of each unlocked base ingredient`,'ok');render();break;
+    }
+    case'autocomplete':{
+      let count=0;
+      while(G.orders.length>0){const o=G.orders[0];if(fulfillOrder(o.id))count++;else break;}
+      rPrint(`  Auto-completed ${count} orders`,'ok');render();break;
+    }
+    case'/crsp':{
+      if(args[0]==='reset'){G._craftOverride=null;rPrint('  Craft time override reset','ok');render();break;}
+      const n=parseFloat(args[0]);if(!isNaN(n)&&n>=0.1){G._craftOverride=n;rPrint(`  Craft time overridden to ${n}s`,'ok');render();}else rPrint('  Usage: /crsp <seconds> or /crsp reset','err');break;
+    }
+    default:rPrint(`  Unknown: ${c}. Type "help"`,'err');
+  }
+  // godmode/nofic overrides
+  if(G._godmode){
+    const hM=document.getElementById('hudMoney');
+    if(hM) hM.textContent+=' 👑';
+  }
+}
+// drag root terminal
+(function(){
+  const t=document.getElementById('rootTerm');
+  const h=t.querySelector('.rt-title');
+  let p1=0,p2=0,p3=0,p4=0;
+  h.addEventListener('mousedown',e=>{
+    if(e.target.tagName==='BUTTON') return;
+    e.preventDefault();p3=e.clientX;p4=e.clientY;
+    t.style.transform='none';const r=t.getBoundingClientRect();
+    t.style.left=r.left+'px';t.style.top=r.top+'px';
+    const mv=ev=>{ev.preventDefault();p1=p3-ev.clientX;p2=p4-ev.clientY;p3=ev.clientX;p4=ev.clientY;t.style.top=Math.max(0,t.offsetTop-p2)+'px';t.style.left=Math.max(0,t.offsetLeft-p1)+'px';};
+    const up=()=>{document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);};
+    document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);
+  });
+})();
+// ===== TERMINAL =====
+let termMinimized=false;
+const termCmds={
+  help:'Show available commands',
+  reset:'Reset game to original state (with confirmation)',
+  save:'Save current game progress',
+  load:'Load last saved game',
+  export:'Export game data as JSON',
+  'import <json>':'Import game data from JSON string',
+  clear:'Clear terminal output',
+  stats:'Show current game statistics',
+  'money <amt>':'Set money to amount (cheat)',
+  'xp <amt>':'Set XP to amount (cheat)',
+  'level <n>':'Set level (cheat)',
+  'additem <drug> <qty>':'Add drugs to inventory (cheat)',
+  'adding <id> <qty>':'Add ingredients (cheat)',
+  hide:'Close terminal'
+};
+function openTerminal(){
+  const t=document.getElementById('terminal');
+  if(termMinimized){
+    t.style.display='block';
+    t.style.height='400px';
+    termMinimized=false;
+  } else {
+    t.style.display=t.style.display==='block'?'none':'block';
+  }
+  if(t.style.display==='block'){
+    document.getElementById('termInput').focus();
+    if(!t.hasChildNodes()||!document.getElementById('termOutput').children.length){
+      termPrint('🧪 Schedule II Terminal v1.0','system');
+      termPrint('Type "help" for available commands','system');
+    }
+  }
+}
+function closeTerminal(){
+  document.getElementById('terminal').style.display='none';
+  termMinimized=false;
+}
+function toggleTermMin(){
+  const t=document.getElementById('terminal');
+  if(termMinimized){
+    t.style.display='block';
+    t.style.height='400px';
+    termMinimized=false;
+  } else {
+    t.style.height='32px';
+    termMinimized=true;
+  }
+}
+function toggleTermMax(){
+  const t=document.getElementById('terminal');
+  if(t.style.width==='100vw'&&t.style.height==='100vh'){
+    t.style.width='500px';
+    t.style.height='400px';
+    t.style.top='50%';
+    t.style.left='50%';
+    t.style.transform='translate(-50%,-50%)';
+  } else {
+    t.style.width='100vw';
+    t.style.height='100vh';
+    t.style.top='0';
+    t.style.left='0';
+    t.style.transform='none';
+    t.style.borderRadius='0';
+  }
+}
+function termPrint(msg,type=''){
+  const out=document.getElementById('termOutput');
+  const line=document.createElement('span');
+  line.className='line'+(type?' '+type:'');
+  line.textContent=msg;
+  out.appendChild(line);
+  out.scrollTop=out.scrollHeight;
+}
+function processTermCmd(){
+  const input=document.getElementById('termInput');
+  const cmd=input.value.trim();
+  input.value='';
+  if(!cmd) return;
+  termPrint('$ '+cmd,'prompt');
+  const parts=cmd.split(/\s+/);
+  const c=parts[0].toLowerCase();
+  const args=parts.slice(1);
+  switch(c){
+    case 'help':
+      termPrint('Available commands:','info');
+      for(const[k,v]of Object.entries(termCmds)){termPrint(`  ${k}`,'');termPrint(`    └ ${v}`,'');}
+      break;
+    case 'reset':
+      if(args[0]!=='--force'){
+        termPrint('⚠️  This will reset ALL progress! Type "reset --force" to confirm.','warn');
+      } else {
+        G.money=500;G.xp=0;G.level=1;G.totalEarned=0;G.ordersFulfilled=0;G.drugsCrafted=0;
+        G.inventory={weed:0,cocaine:0,meth:0,lsd:0};
+        G.enhanced={};G.ingredients={};G.upgrades={};G.orders=[];G.usedNames=[];G.crafting=null;
+        G.orderCounter=0;G.tickCount=0;G.enhanced={};G.currentArea=null;G.currentContact=null;G.contactSellDrug=null;G.contactSellQty=1;G.drugMarket={weed:1,cocaine:1,meth:1,lsd:1};G.news=[];G.newsTimer=0;G.newsUnread=0;G.newsCounter=0;G.contactFunds={};initContactFunds();
+        for(const d of DRUGS) G.enhanced[d.id]={count:0,quality:1.0,stacked:[]};
+        for(const ing of [...INGREDIENTS,...SPECIAL_INGREDIENTS]) G.ingredients[ing.id]=0;
+        for(const ug of UPGRADES) G.upgrades[ug.id]=0;
+        G.settings.autoFulfill=false;G.settings.autoBuyIngredient='none';G.settings.autoBuyQty=5;G.settings.autoBuyInterval=15;
+        localStorage.removeItem('drugEmpireSave');
+        updateDerived();
+        termPrint('✅ Game reset to factory state. $500 balance restored.','success');
+        showToast('🔄 Game reset!');
+        render();
+      }
+      break;
+    case 'save':
+      G.settings.autoSave=true;
+      saveGame();
+      termPrint('✅ Game saved.','success');
+      break;
+    case 'load':
+      loadGame();
+      updateDerived();
+      render();
+      termPrint('✅ Game loaded from save.','success');
+      break;
+    case 'export':
+      const exp={money:G.money,xp:G.xp,level:G.level,totalEarned:G.totalEarned,
+        ordersFulfilled:G.ordersFulfilled,drugsCrafted:G.drugsCrafted,
+        inventory:G.inventory,enhanced:G.enhanced,ingredients:G.ingredients,
+        upgrades:G.upgrades,settings:G.settings,orderCounter:G.orderCounter};
+      termPrint('📋 Export data (copy below):','info');
+      termPrint(JSON.stringify(exp),'');
+      break;
+    case 'import':{
+      const raw=args.join(' ');
+      if(!raw){termPrint('❌ Usage: import <json>','error');break;}
+      try{
+        const data=JSON.parse(raw);
+        if(data.money!==undefined) G.money=data.money;
+        if(data.xp!==undefined) G.xp=data.xp;
+        if(data.level!==undefined) G.level=data.level;
+        if(data.totalEarned!==undefined) G.totalEarned=data.totalEarned;
+        if(data.ordersFulfilled!==undefined) G.ordersFulfilled=data.ordersFulfilled;
+        if(data.drugsCrafted!==undefined) G.drugsCrafted=data.drugsCrafted;
+        if(data.inventory) G.inventory=data.inventory;
+        if(data.enhanced) G.enhanced=data.enhanced;
+        migrateEnhanced();
+        if(data.ingredients) G.ingredients=data.ingredients;
+        if(data.upgrades) G.upgrades=data.upgrades;
+        if(data.settings) Object.assign(G.settings,data.settings);
+        if(data.orderCounter) G.orderCounter=data.orderCounter;
+        updateDerived();
+        render();
+        termPrint('✅ Game data imported successfully.','success');
+      }catch(e){termPrint('❌ Invalid JSON: '+e.message,'error');}
+      break;
+    }
+    case 'clear':
+      document.getElementById('termOutput').innerHTML='';
+      break;
+    case 'stats':
+      termPrint(`💰 Money: $${G.money.toLocaleString()}`, '');
+      termPrint(`📊 Level: ${G.level} (XP: ${G.xp}/${G.xpForNext})`, '');
+      termPrint(`💵 Total Earned: $${G.totalEarned.toLocaleString()}`, '');
+      termPrint(`📦 Orders Fulfilled: ${G.ordersFulfilled}`, '');
+      termPrint(`🔬 Drugs Crafted: ${G.drugsCrafted}`, '');
+      termPrint(`📋 Active Orders: ${G.orders.length}`, '');
+      termPrint(`🗄️ Storage: ${getStorageUsed()}/${G.totalStorage}`, '');
+      termPrint(`📦 Inventory: ${DRUGS.map(d=>d.icon+' '+G.inventory[d.id]).join(', ')}`, '');
+      termPrint(`✨ Enhanced: ${DRUGS.map(d=>d.icon+' '+(G.enhanced[d.id]?.count||0)).join(', ')}`, '');
+      break;
+    case 'money':{
+      const amt=parseInt(args[0]);
+      if(isNaN(amt)){termPrint('❌ Usage: money <amount>','error');break;}
+      G.money=Math.max(0,amt);
+      termPrint(`💰 Money set to $${G.money.toLocaleString()}`,'success');
+      render();
+      break;
+    }
+    case 'xp':{
+      const x=parseInt(args[0]);
+      if(isNaN(x)){termPrint('❌ Usage: xp <amount>','error');break;}
+      G.xp=Math.max(0,x);
+      updateDerived();
+      termPrint(`⭐ XP set to ${G.xp}`,'success');
+      render();
+      break;
+    }
+    case 'level':{
+      const l=parseInt(args[0]);
+      if(isNaN(l)||l<1){termPrint('❌ Usage: level <number>','error');break;}
+      G.level=l;G.xp=0;
+      updateDerived();
+      termPrint(`⬆️ Level set to ${G.level}`,'success');
+      render();
+      break;
+    }
+    case 'additem':{
+      const drugId=args[0]?.toLowerCase();
+      const qty=parseInt(args[1])||1;
+      if(drugId==='all'){
+        for(const d of DRUGS){
+          G.inventory[d.id]=(G.inventory[d.id]||0)+qty;
+        }
+        termPrint(`✅ Added ${qty}x of each drug to inventory`,'success');
+      } else {
+        const drug=DRUGS.find(d=>d.id===drugId);
+        if(!drug){termPrint('❌ Unknown drug. Options: weed, cocaine, meth, lsd, all','error');break;}
+        G.inventory[drug.id]=(G.inventory[drug.id]||0)+qty;
+        termPrint(`✅ Added ${qty}x ${drug.name} to inventory`,'success');
+      }
+      render();
+      break;
+    }
+    case 'adding':{
+      const ingId=args[0]?.toLowerCase();
+      const qty=parseInt(args[1])||1;
+      if(ingId==='all'){
+        for(const ing of [...INGREDIENTS,...SPECIAL_INGREDIENTS]){
+          G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+qty;
+        }
+        termPrint(`✅ Added ${qty}x of each ingredient`,'success');
+      } else {
+        const ing=INGREDIENTS.find(i=>i.id===ingId)||SPECIAL_INGREDIENTS.find(i=>i.id===ingId);
+        if(!ing){termPrint('❌ Unknown ingredient. Options: all or specific id','error');break;}
+        G.ingredients[ing.id]=(G.ingredients[ing.id]||0)+qty;
+        termPrint(`✅ Added ${qty}x ${ing.name}`,'success');
+      }
+      render();
+      break;
+    }
+    case 'hide':
+      closeTerminal();
+      break;
+    default:
+      termPrint(`❌ Unknown command: ${c}. Type "help" for available commands.`,'error');
+  }
+}
+// drag terminal
+(function(){
+  const term=document.getElementById('terminal');
+  const title=term.querySelector('.term-title');
+  let pos1=0,pos2=0,pos3=0,pos4=0;
+  title.addEventListener('mousedown',e=>{
+    if(e.target.tagName==='BUTTON') return;
+    if(term.style.width==='100vw'&&term.style.height==='100vh') return;
+    e.preventDefault();
+    pos3=e.clientX;pos4=e.clientY;
+    term.style.transform='none';
+    const rect=term.getBoundingClientRect();
+    term.style.left=rect.left+'px';
+    term.style.top=rect.top+'px';
+    const mousemove=ev=>{
+      ev.preventDefault();
+      pos1=pos3-ev.clientX;pos2=pos4-ev.clientY;
+      pos3=ev.clientX;pos4=ev.clientY;
+      term.style.top=Math.max(0,term.offsetTop-pos2)+'px';
+      term.style.left=Math.max(0,term.offsetLeft-pos1)+'px';
+    };
+    const mouseup=()=>{
+      document.removeEventListener('mousemove',mousemove);
+      document.removeEventListener('mouseup',mouseup);
+    };
+    document.addEventListener('mousemove',mousemove);
+    document.addEventListener('mouseup',mouseup);
+  });
+})();
+// enter handler
+setTimeout(()=>{
+  const ti=document.getElementById('termInput');
+  if(ti) ti.addEventListener('keydown',e=>{if(e.key==='Enter') processTermCmd();});
+},0);
+// ===== START =====
+init();
+</script>
+
+
+</body></html>
